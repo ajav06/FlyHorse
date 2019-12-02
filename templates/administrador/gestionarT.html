@@ -1,0 +1,169 @@
+{% extends 'inicio/consulta.html' %}
+{% load static %}
+
+{% block consulta %}
+    {% if user.type_u.codigo == 'trans' '-' %}
+        <div class="section d-flex">
+            <div class="justify-content-center container" style="height: 90%;width: 100%">
+                
+                <div class="d-flex container2 text-center justify-content-center">
+                    <ul class="nav nav-tabs " role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link" id="Titul">Gestión de Transacciones</a>
+                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'saldo' %}">Saldo</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'trans' '-' %}" >Transacciones</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'recar' %}">Recargar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'retir' %}">Retirar</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'transPendientes' %}">Pendientes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'transAprobadas' %}" >Aprobadas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'transRechazadas' %}">Rechazadas</a>
+                        </li>
+                    
+                    </ul>
+                    
+                    <div class="tab-content">
+                    <div class="tab-pane card-body active" role="tabpanel">
+                        <h3 class="mb-md-3 text-center text-white align-center">Gestionar Transacción</h3>
+                        <form method="POST">
+                            {% csrf_token %}
+                                <h4 class="mb-md-3 text-center text-danger align-center">{{ form.non_field_errors }}</h3>
+                                <div class="input-group form-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                    </div>
+                                    <input type="text" name="usua" value="{{ form.instance.usua.username }}" required="" disabled="" class="form-control" id="id_fecha" readonly="">
+                                    {{ form.usua.errors }}
+                                </div>
+
+                                <div class="input-group form-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-calendar-day"></i></span>
+                                    </div>
+                                    {{ form.fecha }}
+                                    {{ form.fecha.errors }}
+                                </div>
+
+                                <div class="input-group form-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-calendar-day"></i></span>
+                                    </div>
+                                        <input type="text" name="descripcion" value="{{ form.instance.get_descripcion_display }}" required="" disabled="" class="form-control" id="id_fecha" readonly="">
+                                    {{ form.descripcion.errors }}
+                                </div>
+
+                                {% if form.instance.descripcion == 1 %}
+                                <div class="input-group form-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-piggy-bank"></i></span>
+                                    </div>
+                                    {{ form.bco }}
+                                    {{ form.bco.errors }}
+                                </div>
+
+                                {% elif form.instance.descripcion == 2 %}
+                                
+                                <div class="input-group form-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-piggy-bank"></i></span>
+                                    </div>
+                                    <input type="text" name="null" value="{{ form.instance.bco_retiro.get_bco_display }} 0{{ form.instance.bco_retiro.numero }} {{ form.instance.bco_retiro.ident }} {{ form.instance.bco_retiro.names }}" required="" class="form-control" id="id_fecha" readonly="">                                
+                                    <div class="d-none">{{ form.bco_retiro }}</div>
+                                    </div>
+                                {% endif %}
+
+                                <div class="input-group form-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-receipt"></i></span>
+                                    </div>
+                                    <input type="text" name="ref" value="0" minlength="5" maxlength="20" class="form-control" id="id_ref" required="">
+                                    {{ form.ref.errors }}
+                                </div>
+
+                                <div class="input-group form-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-money-bill-alt"></i></span>
+                                    </div>
+                                    <input type="text" name="monto" value="{{ form.instance.monto }}" required="" disabled="" class="form-control" id="id_fecha" readonly="">
+                                    {{ form.monto.errors }}
+                                </div>
+
+                                <div class="input-group form-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-balance-scale"></i></span>
+                                    </div>
+                                    {{ form.tipo }}
+                                    {{ form.tipo.errors }}
+                                </div>
+
+                                <div class="input-group form-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-thermometer"></i></span>
+                                    </div>
+                                    {{ form.estado }}
+                                    {{ form.estado.errors }}
+                                </div>
+
+                                <div class="form-group">
+                                    <h4 class="mb-md-3 text-center text-white align-center">¿Seguro de actualizar la transacción?</h4>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <button class="btn btn-success w-50" type="submit"><i class="fas fa-check"></i> Si</button>
+                                        </div>
+                                        <div class="col-6">
+                                            <a href="{% url 'transPendientes' %}" class="btn btn-danger w-50"><i class="fas fa-times"></i> No</a>
+                                        </div>
+                                    </div>
+                                </div>
+                        </form>
+                    </div> 
+                </div>
+                </div>
+
+            </div>
+        </div>
+
+    {% else %}
+        <div class="d-flex justify-content-center h-100">
+            <div class="card">
+                <div class="card-header text-center border-0">
+                    <img class="img-fluid w-50" src="{% static 'img/iniciar/Error.png'%}">
+                </div>
+                <div class="card-body">
+                    <h2 class="text-center" style="color: white">ERROR EN LA URL</h2>
+                </div>
+                <div class="card-footer text-center border-0">
+                    <a class="iniciar btn btn-warning w-50" href="{% url 'inicio' %}" style="color: black">Volver al Inicio</a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+
+        <script>
+        var selectElement = document.getElementById("id_estado");
+
+        for (var i = selectElement.length - 1; i >= 0; i--){
+        if (i==4) {
+            selectElement.remove(i);
+        }
+        }
+
+        </script>
+
+{% endblock %}
+

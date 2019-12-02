@@ -1,0 +1,94 @@
+{% extends 'inicio/historialA.html' %}
+{% load static %}
+
+{% block consulta %}
+     {% if user.type_u.codigo != 'admin' %}
+        <div class="section d-flex">
+            <div class="justify-content-center container" style="height: 90%;width: 100%">
+                
+                <div class="d-flex container2 text-center justify-content-center">
+                    <ul class="nav nav-tabs " role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link" id="Titul">Apuesta</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'apostar' '-' %}">Apostar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'listA' %}">Consultar Apuestas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'listC' %}" >Consultar Carreras</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'reglam' %}">Reglamento</a>
+                        </li>
+                        
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active card-body" role="tabpanel">
+                            <h3 class="mb-md-3 text-center text-white align-center">Consultar Apuestas</h3>
+                            </br>
+                            <div class="col-md-10 p-3 m-auto" >
+                                {% if object_list %}
+                            <table id="tabla" class="table table-responsive text-center mb-0 tbl w-100 table-hover">
+                            <thead class="thead-dark">
+                                <tr>
+                                   <th>Tipo</th> 
+                                    <th>Carrera</th>
+                                    <th>Monto</th>
+                                    <th>Cuota</th>                                           
+                                    <th>Estado</th>
+                                    <th>Opciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for Apuesta in object_list %}
+                                    <tr>
+                                        <td>{{ Apuesta.tApuesta.descripcion }}</td>
+                                        <td>
+                                        {% if Apuesta.id_carr == None %}
+                                            {{ Apuesta.id_jorh.id_hip.nombre }} / El {{ Apuesta.id_jorh.fecha }}
+                                        {% else %}
+                                            {{ Apuesta.id_carr.id_jh.id_hip.nombre }} / {{ Apuesta.id_carr.id_jh.fecha }} a las {{ Apuesta.id_carr.hora }}
+                                        {% endif %}
+                                        </td>
+                                        <td>{{ Apuesta.idTrans.monto }} HRC</td>
+                                        <td>{{ Apuesta.cuota }}</td>
+                                        <td>{{ Apuesta.get_estatus_display }}</td>
+                                        <td>
+                                        <a class="btn btn-warning w-30" href="{% url 'ConsultarAp' Apuesta.id %}"><i class="fas fa-arrow-circle-down fa-align-center"></i>Ver</a>
+                                    </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                            </table>
+                                    </br>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    {% else %}
+        <div class="d-flex justify-content-center h-100">
+            <div class="card">
+                <div class="card-header text-center border-0">
+                    <img class="img-fluid w-50" src="{% static 'img/iniciar/Error.png'%}">
+                </div>
+                <div class="card-body">
+                    <h2 class="text-center" style="color: white">ERROR EN LA URL</h2>
+                </div>
+                <div class="card-footer text-center border-0">
+                    <a class="iniciar btn btn-warning w-50" href="{% url 'inicio' %}" style="color: black">Volver al Inicio</a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript" src="{% static 'js/tablas/tablaSencilla.js'%}"></script>
+{% endblock %}

@@ -1,0 +1,27 @@
+           <form method="POST" action="{% url 'inclujck' %}">
+                {% csrf_token %}
+                    <div class="input-group form-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-place-of-worship"></i></span>
+                        </div>
+                        <input type="select" class="form-control" placeholder="Id Jornada" name="id_jh">
+                    </div>
+
+                    <div class="input-group form-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                        </div>
+                        <input type="number" step="any" class="form-control" placeholder="Cantidad de Caballos" name="can_caballos">
+                    </div>
+
+                    <div class="input-group form-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                        </div>
+                        <input type="number" step="any" class="form-control" placeholder="Distancia" name="distancia">
+                    </div>
+
+                    <div class="form-group">
+                        <button class="btn btn-warning w-100" type="submit">Registar</button>
+                    </div>
+            </form> 

@@ -1,0 +1,94 @@
+{% extends 'inicio/gestionar.html' %}
+{% load static %}
+
+{% block gestionar %}
+
+{% comment %} {% if user.type_u.codigo == 'user' %} {% endcomment %}
+    <div class="section d-flex">
+        <div class="justify-content-center container" style="height: 90%;width: 100%">  
+            <div class="d-flex container2 text-center justify-content-center">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link" id="Titul">Gestionar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'histMv' '-' %}">Moneda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'listaU' '-'%}">Usuarios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listaH' '-' %}">Hipódromos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listaCb' '-' %}">Caballos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listaJk' '-' %}">Jockeys</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listaE' '-' %}">Entrenadores</a>
+                    </li>
+                </ul>
+                    
+                <div class="tab-content">
+                     <div class="tab-pane card-body active" role="tabpanel">
+                        <h3 class="mb-md-3 text-center text-white align-center">Gestionar Usuario</h3>
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="input-group form-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                </div>
+                                {{ form.username }}
+                            </div>
+
+                            <div class="input-group form-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                </div>
+                                {{ form.email }}
+                            </div>
+
+                            <div class="input-group form-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-user-circle"></i></span>
+                                </div>
+                                {{ form.first_name }}
+                                {{ form.last_nam }}
+                            </div>
+
+                            <div class="input-group form-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-plus-circle"></i></span>
+                                </div>
+                                {% comment %} <input type="password" class="form-control" placeholder="Confirmar Contraseña" name="type_u"> {% endcomment %}
+                                {{ form.type_u }}
+                                {{ form.type_u.errors }}
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-warning w-50" type="submit">Actualizar</button>
+                            </div>
+                        </form>
+                    </div>       
+                </div>
+            </div>     
+        </div>
+    </div>
+{% comment %} {% else %}
+        <div class="d-flex justify-content-center h-100">
+            <div class="card">
+                <div class="card-header text-center border-0">
+                    <img class="img-fluid w-50" src="{% static 'img/iniciar/Error.png'%}">
+                </div>
+                <div class="card-body">
+                    <h2 class="text-center" style="color: white">ERROR EN LA URL</h2>
+                </div>
+                <div class="card-footer text-center border-0">
+                    <a class="iniciar btn btn-warning w-50" href="{% url 'inicio' %}" style="color: black">Volver al Inicio</a>
+                </div>
+            </div>
+        </div>
+{% endif %} {% endcomment %}
+    
+{% endblock %}

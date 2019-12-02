@@ -1,0 +1,80 @@
+{% extends 'base/inicio.html' %}
+{% load static %}
+
+{% block configuracion %}
+    <div class="section d-flex">
+        <div class="justify-content-center container" style="height: 90%;width: 100%">          
+            <div class="d-flex container2 text-center justify-content-center">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link" id="Titul">Apuesta</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'apostar' '-' %}">Apostar</a>
+                    </li>
+                     <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'listA' %}">Consultar Apuestas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listC' %}">Consultar Carreras</a>
+                    </li>  
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'reglam' %}">Reglamento</a>
+                    </li>
+
+                </ul>
+                <div class="tab-content">
+                    {% block datosP %}
+                        <div class="tab-pane card-body active" role="tabpanel">
+                            <h3 class="mb-md-3 text-center text-white align-center">Detalle de Apuesta</h3>
+                            <form method="POST">
+                                {% csrf_token %}
+                                <div class="input-group form-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                    </div>
+                                    <input id="tipa" type="text" class="form-control" value="{{ Apuesta.tApuesta.nombre }}" name="tipap" disabled>
+                                </div>
+
+                                <div class="input-group form-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                    </div>
+                                    <input id="namecarr" type="text" class="form-control" value="{{ Apuesta.id_carr.id_jh.id_hip.nombre  }}" name="tipap" disabled>
+                                </div>
+
+                                <div class="input-group form-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                    </div>
+                                    <input id="monAp" type="text" class="form-control" value="{{ Apuesta.montoAp }}" name="monta" disabled>
+                                </div>
+
+                                <div class="input-group form-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                    </div>
+                                    <input id="cuoAp" type="text" class="form-control" value="{{ Apuesta.idTrans.monto }}" name="cAp" disabled>
+                                </div>
+
+                                <div class="input-group form-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                    </div>
+                                    <input id="fecAp" type="text" class="form-control" value="{{ Apuesta.fechaAp }}" name="feAp" disabled>
+                                </div>
+
+                                <div class="input-group form-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                    </div>
+                                    <input id="transgAp" type="text" class="form-control" value="{{ Apuesta.id_carr.id_jh.id_hip.nombre  }}" name="trangAp" disabled>
+                                </div>
+                            </form>
+                        </div>
+                    {% endblock %}
+                </div>          
+{% endblock %}
+
+{% block principal %}
+{% endblock %}

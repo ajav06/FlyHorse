@@ -1,0 +1,65 @@
+{% extends 'inicio/gestionar.html' %}
+{% load static %}
+
+{% block gestionar %}
+        <div class="section d-flex">
+            <div class="justify-content-center container" style="height: 90%;width: 100%">  
+                <div class="d-flex container2 text-center justify-content-center">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link" id="Titul">Gestionar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'histMv' '-' %}">Moneda</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'listaU' '-' %}">Usuarios</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'listaH' '-' %}">Hipódromos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'listaCb' '-' %}">Caballos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'listaJk' '-' %}">Jockeys</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'listaE' '-' %}">Entrenadores</a>
+                        </li>
+                    </ul>
+                        
+                    <div class="tab-content">
+                        <div class="tab-pane card-body active" role="tabpanel">
+                            <h3 class="mb-md-3 text-center text-white align-center">Gestionar Usuario</h3>
+                            <form method="POST">
+                                {% csrf_token %}
+                                <div class="input-group form-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                    </div>
+                                    {{ form.username }}
+                                </div>
+
+                                <div class="input-group form-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                    </div>
+                                    {{ form.email }}
+                                </div>
+
+                                <div class="input-group form-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-plus-circle"></i></span>
+                                    </div>
+                                    {{ form.type_u }}
+                                    {{ form.type_u.errors }}
+                                </div>
+                                <button class="btn btn-danger w-25" type="submit">Suspender Usuario</button>
+                            </form>
+                        </div>       
+                    </div>
+                </div>     
+            </div>
+        </div>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends 'base/inicio.html' %}
+{% load static %}
+
+{% block configuracion %}
+    <div class="section d-flex">
+        <div class="justify-content-center container" style="height: 90%;width: 100%">          
+            <div class="d-flex container2 text-center justify-content-center">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link" id="Titul">Apuesta</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'apostar' '-' %}">Apostar</a>
+                    </li>
+                     <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'ConsultarAp' %}"Consultar Apuestas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'reglam' %}">Reglamento</a>
+                    </li>
+
+                </ul>
+{% block datosP %}
+    <div class="tab-pane Desactivar active card-body" id="ajusPer" role="tabpanel">
+        <h3 class="mb-md-3 text-center text-white align-center">Detalle de la carrera</h3>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="input-group form-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                </div>
+                <input id="Hipodromo" type="text" class="form-control" value="{{ carrera.id_jh.id_hip.nombre }}" name="username" disabled="">
+            </div>
+             </div>
+                <input id="Fechora" type="text" class="form-control" value="{{ carrera.id_jh.fecha }} a las {{ carrera.hora }}" name="username" disabled="">
+            </div>
+            </div>
+                <input id="cantc" type="text" class="form-control" value="{{ carrera.cant_caballos }}" name="username" disabled="">
+            </div>
+             </div>
+                <input id="distc" type="text" class="form-control" value="{{ carrera.distancia }}" name="username" disabled="">
+            </div>
+            </div>
+                <input id="distc" type="text" class="form-control" value="{% if carrera.estatus == 'a' %}
+                                                        <p>Activa</p>
+                                                    {% elif carrera.estatus == 'c' %}
+                                                        <p>Corriendo</p>
+                                                    {% elif carrera.estatus == 'f' %}
+                                                        <p>Finalizada</p>
+                                                    {% elif carrera.estatus == 'e' %}
+                                                        <p>Eliminada</p>
+                                                    {% elif carrera.estatus == 'p' %}
+                                                        <p>Publicada</p>
+                                                    {% endif %}" name="username" disabled="">
+            </div>
+            <div class="form-group">
+                <button class="iniciar btn btn-warning w-50" type="submit">Actualizar</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block principal %}
+{% endblock %}

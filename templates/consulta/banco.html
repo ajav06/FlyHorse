@@ -1,0 +1,91 @@
+{% extends 'inicio/consulta.html' %}
+{% load static %}
+
+{% block consulta %}
+        <div class="section d-flex">
+            <div class="justify-content-center container" style="height: 90%;width: 100%"> 
+                <div class="d-flex container2 text-center justify-content-center">
+                    <ul class="nav nav-tabs " role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link" id="Titul">Gestión de Transacciones</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'saldo' %}">Saldo</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'trans' '-' %}" >Transacciones</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'recar' %}">Recargar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'retir' %}">Retirar</a>
+                        </li>
+                    
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active card-body" role="tabpanel">
+                            <h3 class="mb-md-3 text-center text-white align-center">Registar Banco</h3>
+                            </br>
+                            <form method="POST">
+                                {% csrf_token %}
+                                    <div class="input-group form-group d-none">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-place-of-worship"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control" value="{{ user.id }}" name="usua">
+                                    </div>
+
+                                    <div class="input-group form-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                                        </div>
+                                        {% comment %} <input type="number" step="any" class="form-control" placeholder="Nombre del Banco" name="bco"> {% endcomment %}
+                                        {{ form.bco }}
+                                        {{ form.bco.errors }}
+                                    </div>
+
+                                    <div class="input-group form-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                                        </div>
+                                        <input class="form-control" placeholder="Número de Cuenta/Correo electrónico (cuenta extranjera)" name="numero">
+                                        {{ form.numero.errors }}
+                                    </div>
+
+                                    <div class="input-group form-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                                        </div>
+                                        {% comment %} <input type="text" class="form-control" value="d" name="tipo"> {% endcomment %}
+                                        {{ form.tipo }}
+                                        {{ form.tipo.errors }}
+                                    </div>
+                                    
+                                    <div class="input-group form-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="Identificación (Ej. V - XX.XXX.XX, J - XXXX)" name="ident">
+                                        {{ form.ident.errors }}
+                                    </div>
+
+                                    <div class="input-group form-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="Nombre y Apellido" name="names">
+                                        {{ form.names.errors }}
+                                    </div>
+
+                                    <div class="form-group">
+                                        <button class="btn btn-warning w-100" type="submit">Registrar Cuenta</button>
+                                    </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+{% endblock %}

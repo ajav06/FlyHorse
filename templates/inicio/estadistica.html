@@ -1,0 +1,53 @@
+{% extends 'base/inicio.html' %}
+{% load static %}
+
+{% block estadistica %}
+            <div class="section d-flex">
+                <div class="justify-content-center container" style="height: 90%;width: 100%">
+
+                    <div class="d-flex container2 text-center justify-content-center">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link" id="Titul">Estadísticas</a>
+                            </li>
+
+                            {% if user.type_u.codigo == 'admin' %}
+                                <li class="nav-item">
+                                    <a class="nav-link active" href="{% url 'estadRS' %}">Rentabilidad del Sistema</a>
+                                </li>
+
+                            {% elif user.type_u.codigo == 'user' %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'estadAp' %}">Rendimiento de Apuestas</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link " href="{% url 'listaCb' '-' %}">Caballos</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'listaH' '-' %}">Hipódromos</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'listaJk' '-' %}">Jockey</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'listaE' '-' %}">Entrenadores</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+
+                        <div class="tab-content">
+                            <div class="tab-pane active card-body">
+                                <h1>¡Hola, {{ user.username }}!</h1>
+                                <p style="text-align:center">&nbsp; Para Ver las Estadísticas que te Ofrece FlyHorse, Puedes seleccionar una de las Estadísticas que se encuentran a tu Izquierda  . <b>¡Felices apuestas!</b></p>    
+                                 </br>
+                                <img class="img-fluid" src="{% static 'img/FH logo.png' %}" style="width: 450px">
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div> 
+{% endblock %}
+
+{% block principal %}
+{% endblock %}

@@ -1,0 +1,92 @@
+{% extends 'inicio/incluir.html' %}
+{% load static %}
+
+{% block incluir %}
+    {% if user.type_u.codigo == 'encar' %}
+        <div class="section d-flex">
+            <div class="justify-content-center container" style="height: 90%;width: 100%">
+
+                <div class="d-flex container2 text-center justify-content-center">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link" id="Titul">Incluir</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'incluirJh' '-'  %}">Jornada Hípica</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'incluirCr' %}">Carrera</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane card-body active" role="tabpanel">
+                            <h3 class="mb-md-3 text-center text-white align-center">Incluir Carrera</h3>
+                            <form method="POST">
+                                {% csrf_token %}  
+                                    <div class="input-group form-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="far fa-id-card"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="Id" name="id" onblur="this.value=(document.getElementById('uno').value+'-'+document.getElementById('dos').value)">
+                                        {{ form.id.errors }}
+                                    </div>
+
+                                    <div class="input-group form-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                                        </div>
+                                        {{ form.id_jh }}
+                                        {{ form.id_jh.errors }}
+                                    </div>
+                                    
+                                    
+                                    <div class="input-group form-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="far fa-clock"></i></span>
+                                        </div>
+                                        <input type="time" class="form-control" placeholder="Hora de la Carrera" name="hora" id="dos">
+                                        {{ form.hora.errors }}
+                                    </div>
+
+                                    <div class="input-group form-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-list-ol"></i></span>
+                                        </div>
+                                        <input type="number" class="form-control" placeholder="Cantidad de Caballos" name="cant_caballos">
+                                        {{ form.cant_caballos.errors }}
+                                    </div>
+
+                                    <div class="input-group form-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-tachometer-alt"></i></span>
+                                        </div>
+                                        <input type="number" class="form-control" placeholder="Distancia en MTS de la Carrera" name="distancia">
+                                        {{ form.distancia.errors }}
+                                    </div>
+
+                                    <div class="form-group">
+                                        <button class="btn btn-warning w-50" type="submit">Incluir</button>
+                                    </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    {% else %}
+        <div class="d-flex justify-content-center h-100">
+            <div class="card">
+                <div class="card-header text-center border-0">
+                    <img class="img-fluid w-50" src="{% static 'img/iniciar/Error.png'%}">
+                </div>
+                <div class="card-body">
+                    <h2 class="text-center" style="color: white">ERROR EN LA URL</h2>
+                </div>
+                <div class="card-footer text-center border-0">
+                    <a class="iniciar btn btn-warning w-50" href="{% url 'inicio' %}" style="color: black">Volver al Inicio</a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

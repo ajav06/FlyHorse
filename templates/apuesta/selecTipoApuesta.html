@@ -1,0 +1,84 @@
+{% extends "apuesta/Apostar_base.html" %}
+{% load static %}
+<!--Cuadro que sale despues de seleccionar un hipodromo-->
+
+{% block carrerasHipodromo %}
+<div class="tab-content2">
+    <div class="card-body" id="hp1" role="tabpanel"> 
+	{% if carreras %}
+		{% block carreras_jornada %}
+		<h3 class="mb-md-3 text-center text-white align-center">Horarios de las Carreras</h3>
+		<h3 class="mb-md-3 text-center text-black align-center">{{ jornada }}</h3>
+		<div class="col-md-10 p-3 m-auto" >
+			<table class="table table-responsive text-center mb-0 tbl w-100 table-hover" id="tabla">
+				<thead class="thead-dark">
+					<tr>
+						<th>Hora de la carrera</th>
+						<th>Cantidad de Caballos</th>
+						<th>Distancia</th>
+						<th>Estado</th>
+						<th>Opciones</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for carr in carreras  %}
+					<tr>
+						<td>{{carr.hora|time:"h:i A"}}</td>
+						<td>{{carr.cant_caballos}}</td>
+						<td>{{carr.distancia}} mts</td>
+						<td>{{carr.get_estatus_display}}</td>
+						<td><a href="{% url 'listComp' carr.id %}" class="btn btn-warning w-100">Ver Detalle</a></td>
+						</tr>
+					{% endfor %}
+				</tbody>    
+			</table>
+		</div> 
+	<!--aqui tan-->	
+	</div>
+</div> 		
+		{% endblock carreras_jornada %}
+		<!--Tipos de apuestas-->
+		<ul class="nav barraapuesta nav-tabs" role="tablist">
+			<li class="nav-item">
+				<a class="nav-link" id="Titul"><b>Seleccione el tipo de apuesta</b></a>
+			</li>
+			<!--Debe haber otra forma de llamar al pk-->
+			<li class="nav-item">
+				<a class="nav-link" href="{% url 'Apuesta_Unicarrera' hip.id 1 %}" role="tab" id="ap1">Ganador</a>
+			</li> 
+			<li class="nav-item">
+				<a class="nav-link" href="{% url 'Apuesta_Unicarrera' hip.id 2 %}" role="tab" id="ap2">Exacta</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="{% url 'Apuesta_Unicarrera' hip.id 3 %}" role="tab" id="ap3">Trifecta</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="{% url 'Apuesta_Unicarrera' hip.id 4 %}" role="tab" id="ap4">Superfecta</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="{% url 'Apuesta_Unicarrera' hip.id 5 %}" role="tab" id="ap5">Placé</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="{% url 'Apuesta_Unicarrera' hip.id 6 %}" role="tab" id="ap6">Show</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="{% url 'AP56' hip.id 7 %}" role="tab" id="ap7">5y6 Nacional</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="{% url 'Apuesta_Polla' hip.id 8 %}" role="tab" id="ap8">Polla max</a>
+			</li>
+		</ul>                		
+	{% else %}  
+		<h3 class="mb-md-3 text-center text-white align-center">No hay carreras registradas</h3>
+	{% endif %}  
+{% endblock  %}
+
+{% block scripts %}
+    <script type="text/javascript" src="{% static 'js/tablas/tablaSencilla.js'%}"></script>
+	<script>
+		window.onload = function() {
+			$('#hp{{hip.id}}').addClass('active');
+			$('#ap{{tipoap.id}}').addClass('active');
+		};   
+	</script>
+{% endblock %}

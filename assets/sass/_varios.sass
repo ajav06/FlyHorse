@@ -1,0 +1,410 @@
+//FONDO BARRA DE NAVEGACION 
+.bg-1
+    background: $otr5
+
+//FONDO DE PANTALLA
+
+#User 
+    background: $gri
+
+
+//BARRA DE NAVEGACION
+.navbar
+    overflow: hidden
+    top: 0
+    right: 0
+    left: 0
+    z-index: 10201
+    padding: 3% 3% 0
+
+.navbar-toggler 
+    width: 40px
+    height: 40px
+    .open
+        background: transparent
+        span 
+            background: #000
+            &:nth-child(1),&:nth-child(4)
+                top: 20px
+                width: 0%
+                left: 100%
+                opacity: 0
+            &:nth-child(2)
+                -webkit-transform: rotate(45deg)
+                -moz-transform: rotate(45deg)
+                -o-transform: rotate(45deg)
+                transform: rotate(45deg)
+            &:nth-child(3)
+                -webkit-transform: rotate(-45deg)
+                -moz-transform: rotate(-45deg)
+                -o-transform: rotate(-45deg)
+                transform: rotate(-45deg)
+    span
+        background-color: #000
+        margin-top: 3%
+        -webkit-transform: rotate(0)
+        -moz-transform: rotate(0)
+        -o-transform: rotate(0)
+        transform: rotate(0)
+        -webkit-transition: .25s ease-in-out
+        -moz-transition: .25s ease-in-out
+        -o-transition: .25s ease-in-out
+        transition: .25s ease-in-out
+        &:nth-child(1)
+            top: 10px
+        &:nth-child(2),&:nth-child(3)
+            top: 18px
+        &:nth-child(4)
+            top: 26px
+
+.nav-pills
+    .nav-item
+        .active
+            background: $ama
+            color: $mar
+            &:hover
+                border-color: $amO
+                background: $amO    
+
+.nav-item
+    align-self: center
+    &:hover
+        &:after
+            width: 100%
+    &:after
+        content: ''
+        display: block
+        width: 0px
+        height: 3px
+        background: $ama
+        transition: 0.2s
+    a
+        color: $mar
+        padding-top: 26.5px
+        padding-bottom: 26.5px
+        line-height: 27px
+
+.navbar-brand
+    img
+        width: 120px
+
+.custom-toggler 
+    border-color: antiquewhite
+
+.white-text
+    color: antiquewhite
+
+.navbar-expand-lg 
+    .navbar-nav 
+        .dropdown-menu 
+            position: absolute !important
+
+.material-icons
+    transform: translateY(4px)
+    font-size: 20px
+
+
+////////Tabla
+/*
+    
+    .tbl
+        display: block 
+        overflow-y: scroll
+        height: 467px
+        background: $naC
+        td
+            color: $mar
+            background: $otr3
+
+    @media(max-width: 991px)
+        .tbl 
+            overflow-x: scroll
+            height: 300px
+
+    .center-block-panel-donJug 
+        margin-right: 20px
+        margin-left: 20px
+        padding-top: 10px
+
+
+
+///////BOTONES
+.btn
+    margin-top: 10px
+
+.btnAma
+    background: $ama
+    border-color: $ama
+    &:hover
+        border-color: $amO
+        background: $amO
+
+.btnNar
+    background: $naC
+    border-color: $naC
+    &:hover
+        border-color: $nar
+        background: $nar
+
+.centrar
+    align-items: center
+    justify-content: center
+    align-content: center
+    align-self: center
+    justify-items: center
+    justify-self: center
+
+////////INICIAR SESIÓN, REGISTRASE, OLVIDAR
+
+.card 
+    height: 425px
+    margin-top: auto
+    margin-bottom: auto
+    width: 400px
+    background-color: rgba(0, 0, 0, 0.5) !important
+    #loginIcon
+        width: 47%
+        margin-left: 25%
+
+.social_icon
+    position: absolute
+    right: 20px
+    top: -45px 
+    span
+        font-size: 60px
+        margin-left: 10px
+        color: $ama
+        &:hover 
+            color: white
+            cursor: pointer
+
+.card-header 
+    h1,h3 
+        color: white
+
+.input-group-prepend 
+    span 
+        width: 50px
+        background-color: $ama
+        color: black
+        border: 0 !important
+
+input
+    &:focus 
+        outline: 0 0 0 0 !important
+        box-shadow: 0 0 0 0 !important
+
+.remember 
+    color: white
+    align-items: center
+    input 
+        width: 10px
+        height: 10px
+        margin-left: 5px
+        margin-right: 5px
+
+.login_btn 
+    color: black
+    background-color: $ama
+    width: 100px
+    &:hover 
+        color: black
+        background-color: white
+
+.links 
+    color: white
+    a 
+      margin-left: 4px  
+
+#carouselComoJugar
+    margin-top: auto
+    margin-bottom: auto
+
+.card-R
+    height: 375px
+    margin-top: auto
+    margin-bottom: auto
+    width: 370px
+    background-color: rgba(0, 0, 0, 0.5) !important
+    .card-footer
+        margin-top: 40px
+        margin-bottom: auto
+    #registerIcon
+        width: 50%
+        margin-left: 28%
+
+.card-O 
+    height: 320px
+    margin-top: auto
+    margin-bottom: auto
+    width: 370px
+    background-color: rgba(0, 0, 0, 0.5) !important
+    .card-footer
+        margin-top: 40px
+        margin-bottom: auto
+    #recoveryIcon
+        width: 20%
+        margin-left: 40%
+
+#registerCheckbox+label
+    &:before
+        font-family: "Font Awesome 5 Free" 
+        content: "\f111"
+        display: inline-block
+        color: red
+        letter-spacing: 0.5rem
+
+#registerCheckbox
+    &:checked+label
+        &:before 
+            content: "\f058"
+            color: #4B9738
+            letter-spacing: 0.5rem
+
+#registerDivCheck 
+    label 
+	    font-size: 1.375rem
+
+////////NAV-TABS 
+.tab-content
+    overflow-y: auto
+    overflow-x: auto
+    background: $otr2
+    width: 100%
+    border-radius: 0px 15px 15px 0px
+    -moz-border-radius: 0px 15px 15px 0px
+    -webkit-border-radius: 0px 15px 15px 0px
+    -webkit-box-shadow: 0px 10px 19px -7px rgba(0,0,0,0.75)
+    -moz-box-shadow: 0px 10px 19px -7px rgba(0,0,0,0.75)
+    box-shadow: 0px 10px 19px -7px rgba(0,0,0,0.75)
+
+.tab-content2
+    background: $otr2
+    width: 100%
+    -webkit-box-shadow: 0px 10px 19px -7px rgba(0,0,0,0.75)
+    -moz-box-shadow: 0px 10px 19px -7px rgba(0,0,0,0.75)
+    box-shadow: 0px 10px 19px -7px rgba(0,0,0,0.75)
+
+.tab-content3
+    background: $otr2
+    width: 100%
+    border-radius: 15px 15px 15px 15px
+    -moz-border-radius: 15px 15px 15px 15px
+    -webkit-border-radius: 15px 15px 15px 15px
+    -webkit-box-shadow: 7px 10px 19px -7px rgba(0,0,0,0.75)
+    -moz-box-shadow: 7px 10px 19px -7px rgba(0,0,0,0.75)
+    box-shadow: 7px 10px 19px -7px rgba(0,0,0,0.75)
+
+.nav-tabs
+    background: $otro
+    color: black
+    width: 15%
+    -webkit-box-shadow: 10px 10px 19px -7px rgba(0,0,0,0.75)
+    -moz-box-shadow: 10px 10px 19px -7px rgba(0,0,0,0.75)
+    box-shadow: 10px 10px 19px -7px rgba(0,0,0,0.75)
+    border-radius: 15px 0px 0px 15px
+    -moz-border-radius: 15px 0px 0px 15px
+    -webkit-border-radius: 15px 0px 0px 15px
+    a
+        background: $otro
+    float: left
+    display: block
+    .nav-item
+        &:after
+            height: 0px
+        .active
+            &:after
+                height: 0px
+            background: $otr2
+            border-color: $otr2
+            color: $anw
+            &:hover
+                border-color: $otr5
+                background: $otr5
+                color: $mar
+
+#Titul
+    height: 15%
+    background: $otr4
+    border-color: $otr4
+    color: $anw
+    border-radius: 15px 0px 0px 0px
+    -moz-border-radius: 15px 0px 0px 0px
+    -webkit-border-radius: 15px 0px 0px 0px
+
+.container
+    margin-top: 22px
+    .container2
+        height: 100% 
+        width: 100%
+        .table
+            display: block
+            max-height: 450px
+            max-width: 850px
+            @media(max-width: 1196px)
+                max-width: 500px 
+            overflow-y: auto
+            overflow-x: auto
+            table-layout: auto
+    .nav-tabs
+        background: $otro
+        color: black
+        max-height: 100%
+        overflow: auto
+    .Reglamento
+        height: 100%
+        width: 100%
+
+.barraapuesta
+    background: $otro
+    color: black
+    max-height: 100%
+    overflow: auto
+    border-radius: 0px 15px 15px 0px
+    -moz-border-radius: 0px 15px 15px 0px
+    -webkit-border-radius: 0px 15px 15px 0px
+    #Titul
+        height: 15%
+        background: $otr4
+        border-color: $otr4
+        color: $anw
+        border-radius: 0px 15px 0px 0px
+        -moz-border-radius: 0px 15px 0px 0px
+        -webkit-border-radius: 0px 15px 0px 0px
+
+//////////////Estadistica
+.grid-estadisticas 
+    display: grid
+    height: auto
+    align-content: space-around
+    justify-content: space-evenly
+    grid-template-columns: auto auto auto
+    grid-gap: 25px
+////background-color: rgb(216, 70, 25) 
+     padding: 25px
+
+
+.grid-estadisticas > div 
+    background-color: rgba(255, 255, 255, 0.8)
+    text-align: center
+    padding: 20px
+    font-size: 16px
+
+
+.grid-estadisticas-img1 
+    grid-row: 1 / span 2
+    grid-column: 1 / span 2
+
+
+.grid-estadisticas-caballo 
+    grid-column: span 2
+
+
+.grid-estadisticas-botonestad 
+    grid-column: 1 / span 3
+
+
+.txtst 
+    color: #000
+    letter-spacing: 2px
+    text-transform: uppercase

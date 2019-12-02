@@ -1,0 +1,146 @@
+{% extends 'inicio/ConsulAp.html' %}
+{% load static %}
+
+{% block datosP %}
+    <div class="tab-pane card-body active" role="tabpanel">
+        <h3 class="mb-md-3 text-center text-white align-center">Detalle de Apuesta</h3>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="input-group form-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                </div>
+                <input id="tipa" type="text" class="form-control" value="{{ Apuesta.tApuesta.descripcion }}" name="tipap" disabled>
+            </div>
+
+              <div class="input-group form-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                </div>
+                {% if Apuesta.id_carr == None %}
+                     <input id="namecarr" type="text" class="form-control" value="{{ Apuesta.id_jorh.id_hip.nombre }}" name="tipap" disabled>
+                {% else %}
+                    <input id="namecarr" type="text" class="form-control" value="{{ Apuesta.id_carr.id_jh.id_hip.nombre }}" name="tipap" disabled>
+                {% endif %}
+               
+            </div>
+
+            <div class="input-group form-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                </div>
+                <input id="monAp" type="text" class="form-control" value="{{ Apuesta.idTrans.monto }} HRC " name="monta" disabled>
+            </div>
+
+            <div class="input-group form-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                </div>
+                <input id="cuoAp" type="text" class="form-control" value="{{ Apuesta.cuota }} " name="cAp" disabled>
+            </div>
+
+            <div class="input-group form-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                </div>
+                <input id="fecAp" type="text" class="form-control" value="{{ Apuesta.fechaAp }}" name="feAp" disabled>
+            </div>
+
+            <div class="input-group form-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                </div>
+                {% if Apuesta.id_carr == None %}
+                     <input id="namecarr" type="text" class="form-control" value="{{ Apuesta.id_jorh.id_hip.nombre }} / El {{ Apuesta.id_jorh.fecha }}" name="trangAp" disabled>
+                {% else %}
+                    <input id="transgAp" type="text" class="form-control" value="{{ Apuesta.id_carr.id_jh.id_hip.nombre }} / {{ Apuesta.id_carr.id_jh.fecha }} a las {{ Apuesta.id_carr.hora }}" name="trangAp" disabled>
+                {% endif %}
+                
+            </div>
+        </form>
+        </br>
+        <table id="tabla" class="table table-responsive text-center mb-0 tbl w-100 table-hover">
+            {% if Apuesta.tApuesta.id == 1 or Apuesta.tApuesta.id == 2 or Apuesta.tApuesta.id == 3 or Apuesta.tApuesta.id == 4 or Apuesta.tApuesta.id == 5 or Apuesta.tApuesta.id == 6 %}
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Nombre Caballo</th>
+                        <th>Posición</th>
+                        <th>Estado Carrera</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for det in detalles %}
+                        <tr>
+                            <td>{{det.id_cab.nombre}}</td>
+                            <td>{{det.posicion}}</td>
+                            <td>
+                            {% if Apuesta.id_carr.estatus == 'a' %}
+                                                        <p>Activa</p>
+                                                    {% elif Apuesta.id_carr.estatus == 'c' %}
+                                                        <p>Corriendo</p>
+                                                    {% elif Apuesta.id_carr.estatus == 'f' %}
+                                                        <p>Finalizada</p>
+                                                    {% elif Apuesta.id_carr.estatus == 'e' %}
+                                                        <p>Eliminada</p>
+                                                    {% elif Apuesta.id_carr.estatus == 'p' %}
+                                                        <p>Publicada</p>
+                                                    {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            {% elif Apuesta.tApuesta.id == 7 %}
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Carrera</th>
+                        <th>Nombre Caballo</th>
+                        <th>Estado Jornada</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for det in detalles %}
+                        <tr>
+                            <td>{{Apuesta.id_jorh}}</td>
+                            <td>{{det.id_cab.nombre}}</td>
+                            <td>{% if  Apuesta.id_jorh.estatus == 'a' %}
+                                                        <p>Activa</p>
+                                                        {% elif Apuesta.id_jorh.estatus == 'e' %}
+                                                        <p>Eliminada</p>
+                                                        {% else  %}
+                                                        <p>Finalizada</p>
+                                                        {% endif %}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            {% elif Apuesta.tApuesta.id == 8 %}
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Pts Total: {{Apuesta.cuota}}</th>
+                        <th>Nombre Caballo</th>
+                        <th>Estado Jornada</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for det in detalles %}
+                        <tr>
+                            <td>{{Apuesta.id_jorh}}</td>
+                            <td>{{det.id_cab.nombre}}</td>
+                            <td>
+                            {% if  Apuesta.id_jorh.estatus == 'a' %}
+                                                        <p>Activa</p>
+                                                        {% elif Apuesta.id_jorh.estatus == 'e' %}
+                                                        <p>Eliminada</p>
+                                                        {% else  %}
+                                                        <p>Finalizada</p>
+                                                        {% endif %}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            {% endif %}
+        </table>
+        </br>
+        <div class="row">
+            <a href="{% url 'listA' %}" class="btn btn-warning w-50 col-4"><i class="fa fa-arrow-circle-left"> Volver</i></a>
+        </div>
+    </div>
+{% endblock %}

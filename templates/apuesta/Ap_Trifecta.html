@@ -1,0 +1,316 @@
+{% extends "apuesta/Ap_Unicarrera.html" %}
+{% load static %}
+
+{% block DetalleCarrera %}
+		<div class="col-md-10 p-3 m-auto" >
+		<table class="table table-responsive text-center mb-0 tbl w-100 table-hover" id="tabla">
+		<thead class="thead-dark">
+			<tr>
+				<th>Número en Carrera</th>
+				<th>Nombre del Caballo</th>
+				<th>Nombre del Jockey</th>
+				<th>Estado Actual</th>
+			</tr>
+		</thead>
+            <tbody>
+				{% for carr in detalle %}
+				<tr>
+					<td>{{carr.numero}}</td>
+					<td>{{carr.id_caba}}</td>
+					<td>{{carr.id_jock}}</td>		
+					<td>{{carr.get_estatus_display}}</td>
+                {% endfor %}
+			</tbody>   
+		</table>
+		</div>
+
+
+
+    <div class="card-footer text-center border-0">
+			<form method="POST">
+					{% csrf_token %}
+						<!--Apuesta-->                                
+						<fieldset class="formFieldset apue row">
+							<!--tipo apuesta-->
+							<div class="input-group form-group tApuesta formField d-none">
+								<div class="input-group-prepend">
+									<span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+								</div>
+								<input type="number" class="form-control" placeholder="Tipo de apuesta" name="apue-tApuesta" value="{{ tipoap.id }}">
+								{{ form.apue.tApuesta.errors }}
+							</div>
+							
+							<!--carrera-->
+							<div class="input-group form-group apue formField col-6">
+								<div class="input-group-prepend">
+									<span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+								</div>
+								<input type="text" class="form-control" placeholder="Carrera" value="Hora de la Carrera {{ carreras.hora|time:'h:i A' }}" disabled>
+								{{ form.apue.id_carr.errors }}
+							</div>
+		
+							<!--carrera-->
+							<div class="input-group form-group apue formField d-none">
+								<div class="input-group-prepend">
+									<span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+								</div>
+								<input type="text" class="form-control" placeholder="Carrera" name ="apue-id_carr" value="{{ carreras.id }}">
+								{{ form.apue.id_carr.errors }}
+							</div>
+		
+							<!--cuota-->
+							<div class="input-group form-group cuota formField d-flex col-6">
+								<div class="input-group-prepend">
+									<span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+								</div>
+								<input type="text" class="form-control" placeholder="Cuota" name ="apue-cuota" value="3" id="cuota">
+								{{ form.apue.cuota.errors }}
+							</div>
+						</fieldset>
+					<div class="row">
+						<!--Detalles Apuesta1-->
+						<fieldset class="formFieldset detaAp col-6">
+							<!--caballo-->
+							<div class="input-group form-group required id_cab formField">
+								<div class="input-group-prepend">
+									<span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+								</div>
+								<select class="form-control" name="detaAp-id_cab" id="deta1">
+									<option value="">Primer Lugar</option>
+									{% for carr in detalle %}
+										{% if  carr.id_caba.estatus == 'a' or carr.id_caba.estatus != 'r' %}
+											<option value="{{ carr.id_caba.id }}">{{ carr.id_caba }}</option>
+										{% endif %}
+									{% endfor %}
+								</select>
+								{{ form.detaAp.id_cab.errors }}
+							</div>
+		
+							<!--Posicion -->
+							<div class="input-group form-group required posicion formField d-none">
+								<div class="input-group-prepend">
+									<span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+								</div>
+								<input type="text" class="form-control" placeholder="Posición a Apostar" name ="detaAp-posicion" value="1">
+								{{ form.detaAp.posicion.errors }}
+							</div>
+						</fieldset>
+		
+						<!--Detalles Apuesta2-->
+						<fieldset class="formFieldset detaAp2 col-6">
+							<!--caballo-->
+							<div class="input-group form-group required id_cab formField">
+								<div class="input-group-prepend">
+									<span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+								</div>
+								<select class="form-control" name="detaAp2-id_cab" id="deta2">
+									<option value="">Segundo Lugar</option>
+										{% for carr in detalle %}
+											{% if  carr.id_caba.estatus == 'a' or carr.id_caba.estatus != 'r' %}
+												<option value="{{ carr.id_caba.id }}">{{ carr.id_caba }}</option>
+											{% endif %}
+										{% endfor %}
+								</select>
+								{{ form.detaAp2.id_cab.errors }}
+							</div>
+		
+							<!--Posicion -->
+							<div class="input-group form-group required posicion formField d-none">
+								<div class="input-group-prepend">
+									<span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+								</div>
+								<input type="text" class="form-control" placeholder="Posición a Apostar" name ="detaAp2-posicion" value="2">
+								{{ form.detaAp2.posicion.errors }}
+							</div>
+						</fieldset>
+
+						<!--Detalles Apuesta3-->
+						<fieldset class="formFieldset detaAp3 col-6">
+								<!--caballo-->
+								<div class="input-group form-group required id_cab formField">
+									<div class="input-group-prepend">
+										<span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+									</div>
+									<select class="form-control" name="detaAp3-id_cab" id="deta3">
+										<option value="">Tercer Lugar</option>
+											{% for carr in detalle %}
+												{% if  carr.id_caba.estatus == 'a' or carr.id_caba.estatus != 'r' %}
+													<option value="{{ carr.id_caba.id }}">{{ carr.id_caba }}</option>
+												{% endif %}
+											{% endfor %}
+									</select>
+									{{ form.detaAp3.id_cab.errors }}
+								</div>
+			
+								<!--Posicion -->
+								<div class="input-group form-group required posicion formField d-none">
+									<div class="input-group-prepend">
+										<span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+									</div>
+									<input type="text" class="form-control" placeholder="Posición a Apostar" name ="detaAp3-posicion" value="3">
+									{{ form.detaAp3.posicion.errors }}
+								</div>
+							</fieldset>
+
+							<!---Transaccion--->
+							<fieldset class="formFieldset trans col-6">
+								<!--Monto -->
+								<div class="input-group formField required form-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+									</div>
+									<input type="number" class="form-control" placeholder="Monto en HRC a Apostar" name ="trans-monto" step="any">                                
+									{{ form.trans.monto.errors }}
+								</div>
+						
+							<!--Usuario-->
+							<div class="input-group formField usua form-group d-none">
+								<div class="input-group-prepend">
+									<span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+								</div>
+								<input type="number" class="form-control" placeholder="Usuario" name ="trans-usua" value="{{ user.id }}" >
+								{{ form.trans.usua.errors }}
+							</div>
+			
+							<!--Descripcion-->
+							<div class="input-group formField form-group d-none">
+								<div class="input-group-prepend">
+									<span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+								</div>
+								<input type="text" class="form-control" placeholder="Descripcion" name ="trans-descripcion" value="3">
+								{{ form.trans.descripcion.errors }}
+							</div>
+			
+							<!--Tipo-->
+							<div class="input-group formField form-group d-none">
+								<div class="input-group-prepend">
+									<span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+								</div>
+								<input type="text" class="form-control" placeholder="Tipo de Transaccion" name ="trans-tipo" value="d">
+								{{ form.trans.tipo.errors }}
+							</div>
+			
+							<!--Estado-->
+							<div class="input-group formField form-group d-none">
+									<div class="input-group-prepend">
+										<span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+									</div>
+									<input type="text" class="form-control" placeholder="Tipo de Transaccion" name ="trans-estado" value="c">
+									{{ form.trans.estado.errors }}
+								</div>
+						</fieldset>
+					</div>
+
+					<h5>Por cada 100 HRC apostados obtendrás <span id="ganancia"></span> HRC</h5>
+					<a href="{% url 'incluirCr'%}" class="btn btn-danger"> Volver</a>
+					<button type="submit" class="btn btn-success">Apostar</button>
+			</form>
+    </div> 
+{% endblock%} 
+
+{% block scripts %}
+<script>
+		window.onload = function() {
+			$('#hp{{hip.id}}').addClass('active');
+			$('#ap{{tipoap.id}}').addClass('active');
+		};   
+	</script>
+<script>
+var ids = [
+	{% for id in multiplicadores_id %}
+	"{{id}}",
+	{% endfor %}
+]
+
+var mult_primeros = [
+	{% for m in multiplicadores_primero %}
+	"{{m}}",
+	{% endfor %}	
+]
+
+var mult_segundos = [
+	{% for m in multiplicadores_segundo %}
+	"{{m}}",
+	{% endfor %}	
+]
+
+var mult_terceros = [
+	{% for m in multiplicadores_tercero %}
+	"{{m}}",
+	{% endfor %}	
+]
+
+$('#deta1').change(function() {
+	var pos_primero = $("#deta1 option:selected").index() - 1;
+	var pos_segundo = $("#deta2 option:selected").index() - 1;
+	var pos_tercero = $("#deta3 option:selected").index() - 1;
+	var mp = 1;
+	var ms = 1;
+	var mt = 1;
+	if (pos_primero != -1){
+		var mp = mult_primeros[pos_primero];
+	}
+	if (pos_segundo != -1){
+		var ms = mult_segundos[pos_segundo];
+	}
+	if (pos_tercero != -1){
+		var mt = mult_terceros[pos_tercero];
+	}
+	var cuotanva = 3 * mp * ms * mt;
+	$('#cuota').val("")
+	$('#cuota').val(cuotanva)
+	document.getElementById('ganancia').innerHTML = parseFloat(cuotanva*100);
+});
+
+$('#deta2').change(function() {
+	var pos_primero = $("#deta1 option:selected").index() - 1;
+	var pos_segundo = $("#deta2 option:selected").index() - 1;
+	var pos_tercero = $("#deta3 option:selected").index() - 1;
+	var mp = 1;
+	var ms = 1;
+	var mt = 1;
+	if (pos_primero != -1){
+		var mp = mult_primeros[pos_primero];
+	}
+	if (pos_segundo != -1){
+		var ms = mult_segundos[pos_segundo];
+	}
+	if (pos_tercero != -1){
+		var mt = mult_terceros[pos_tercero];
+	}
+	var cuotanva = 3 * mp * ms * mt;
+	$('#cuota').val("")
+	$('#cuota').val(cuotanva)
+	document.getElementById('ganancia').innerHTML = parseFloat(cuotanva*100);
+	});
+
+$('#deta3').change(function() {
+	var pos_primero = $("#deta1 option:selected").index() - 1;
+	var pos_segundo = $("#deta2 option:selected").index() - 1;
+	var pos_tercero = $("#deta3 option:selected").index() - 1;
+	var mp = 1;
+	var ms = 1;
+	var mt = 1;
+	if (pos_primero != -1){
+		var mp = mult_primeros[pos_primero];
+	}
+	if (pos_segundo != -1){
+		var ms = mult_segundos[pos_segundo];
+	}
+	if (pos_tercero != -1){
+		var mt = mult_terceros[pos_tercero];
+	}
+	var cuotanva = 3 * mp * ms * mt;
+	$('#cuota').val("")
+	$('#cuota').val(cuotanva)
+	document.getElementById('ganancia').innerHTML = parseFloat(cuotanva*100);
+	});
+
+    $( document ).ready(function() {
+    	$('#ganancia').html(100);
+	});   
+
+</script>
+
+<script type="text/javascript" src="{% static 'js/tablas/tablaSencilla.js'%}"></script>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "apuesta/Apostar_base.html" %}
+{% load static %}
+<!--Cuadro que sale despues de seleccionar un hipodromo-->
+
+{% block carrerasHipodromo %}
+<div class="tab-content">
+    <div class="card-body" id="hp1" role="tabpanel">
+    {% if competidores %}
+        {% block carreras_jornada %}
+            <h3 class="mb-md-3 text-center text-white align-center">Competidores de la Carrera</h3>
+            <div class="col-md-10 p-3 m-auto" >
+                <table class="table table-responsive text-center mb-0 tbl w-100 table-hover" id="tabla">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Número en Carrera</th>
+                            <th>Nombre del Caballo</th>
+                            <th>Nombre del Jockey</th>
+                            <th>Estado Actual</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for com in competidores  %}
+                            <tr>
+                                <td>{{com.numero}}</td>
+                                <td>{{com.id_caba}}</td>
+                                <td>{{com.id_jock}}</td>
+                                <td>{{com.get_estatus_display}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>    
+                </table>
+            </div>
+
+            <div class="row card-footer text-center border-0">
+                <a href="{% url 'selecTipoApuesta' carrera.id_jh.id_hip.id %}" class="col-5 btn btn-warning w-50">Volver Atras</a>
+            </div>
+        <!--aqui tan-->	
+        </div>
+    </div>
+</div> 		
+		{% endblock carreras_jornada %}              		
+	{% else %}  
+		<h3 class="mb-md-3 text-center text-white align-center">No hay Competidores Registrados</h3>
+        <div class="row card-footer text-center border-0">
+            <a href="{% url 'selecTipoApuesta' carrera.id_jh.id_hip.id %}" class="col-5 btn btn-warning w-50">Volver Atras</a>
+        </div>
+	{% endif %}  
+{% endblock  %}
+
+{% block scripts %}
+    <script type="text/javascript" src="{% static 'js/tablas/tablaSencilla.js'%}"></script>
+{% endblock %}

@@ -1,0 +1,121 @@
+{% extends 'inicio/consulta.html' %}
+{% load static %}
+
+{% block consulta %}
+    {% if user.type_u.codigo == 'user' %}
+        <div class="section d-flex">
+            <div class="justify-content-center container" style="height: 90%;width: 100%">
+                
+                <div class="d-flex container2 text-center justify-content-center">
+                    <ul class="nav nav-tabs " role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link" id="Titul">Gestión de Transacciones</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'saldo' %}">Saldo</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'trans' '-' %}" >Transacciones</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'recar' %}">Recargar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'retir' %}">Retirar</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active card-body" role="tabpanel">
+                            <h3 class="mb-md-3 text-center text-white align-center">Realizar Retiro de Saldo</h3>
+                            </br>
+                            {% if bancos %}
+                            <form method="POST">
+                                {% csrf_token %}
+                                <h4 class="mb-md-3 text-center text-danger align-center">{{ form.non_field_errors }}</h3>
+                                <div class="input-group form-group d-none" >
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-place-of-worship"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control" value="{{ user.id }}" name="usua">
+                                </div>
+
+                                <div class="input-group form-group d-none" >
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-place-of-worship"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control" value="{{ user.balance }}" name="saldo" id="saldo">
+                                </div>
+
+                                <div class="input-group form-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-place-of-worship"></i></span>
+                                    </div>
+                                    <select class="form-control" name="bco_retiro">
+                                        {% for bc in bancos %}
+                                            <option value="{{ bc.id }}" selected>{{ bc.get_bco_display }} {{ bc.names }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    {{ form.banco.errors }}
+                                </div>
+
+                                <div class="input-group form-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-money-bill-alt"></i></span>
+                                    </div>
+                                    <input type="number" step="any" class="form-control" placeholder="Monto a Retirar" name="monto" id="monto">
+                                    {{ form.monto.errors }}
+                                </div>
+
+                                <div class="input-group form-group d-none">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control" value="d" name="tipo">
+                                </div>
+
+                                <div class="input-group form-group d-none">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control" value="2" name="descripcion">
+                                </div>
+
+                                <div class="form-group">
+                                    <button class="btn btn-warning w-100" type="submit">Enviar Datos</button>
+                                </div>
+
+                            </form>
+                            {% else %}
+                                <h3 class="mb-md-3 text-center text-white align-center">Primero registre una cuenta bancaria</h3>
+                            {% endif %}
+                                <a href="{% url 'listB' %}" class="btn btn-success w-100">Gestionar bancos</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    {% else %}
+        <div class="d-flex justify-content-center h-100">
+            <div class="card">
+                <div class="card-header text-center border-0">
+                    <img class="img-fluid w-50" src="{% static 'img/iniciar/Error.png'%}">
+                </div>
+                <div class="card-body">
+                    <h2 class="text-center" style="color: white">ERROR EN LA URL</h2>
+                </div>
+                <div class="card-footer text-center border-0">
+                    <a class="iniciar btn btn-warning w-50" href="{% url 'inicio' %}" style="color: black">Volver al Inicio</a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $( document ).ready(function() {
+            $("#precioMoneda").modal('show')
+        });   
+    </script>
+{% endblock %}

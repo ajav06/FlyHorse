@@ -1,0 +1,69 @@
+{% extends 'inicio/gestionar.html' %}
+{% load static %}
+
+{% block gestionar %}
+        <div class="section d-flex">
+            <div class="justify-content-center container" style="height: 90%;width: 100%">
+
+                <div class="d-flex container2 text-center justify-content-center">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link" id="Titul">Gestionar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'listaJh' '-' %}">Jornadas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'listaCr' %}">Carreras</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane card-body active" role="tabpanel">
+                            <h3 class="mb-md-3 text-center text-white align-center">Registrar Posición en la Carrera</h3>
+                            <form method="POST">
+                                {% csrf_token %} 
+                                    <div class="input-group form-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-list-ol"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="Numero del caballo" value="{{ detallescarrera.numero }}" disabled>
+                                    </div>                              
+                                    
+                                    <div class="input-group form-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="far fa-clock"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="Id del Caballo" value="{{ detallescarrera.id_caba.nombre }}" disabled>
+                                    </div>
+
+                                    <div class="input-group form-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-list-ol"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="Id del Jockey" value="{{ detallescarrera.id_jock.nombre }}" disabled>
+                                    </div>
+
+                                    <div class="input-group form-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-list-ol"></i></span>
+                                        </div>
+                                        <input type="number" class="form-control" placeholder="Posición de Llegada" name="posicion">
+                                        {{ form.posicion.errors }}
+                                    </div>
+                                        <h6 class="mb-md-3 text-center text-danger align-center">Introduzca 500 en la posición si el caballo no finalizó la carrera.</h6>
+                                    <div class="form-group row">
+                                        <div class="col-6">
+                                            <a href="{% url 'detalleCJ' detallescarrera.id_carr %}" class="btn btn-warning w-50">Volver Atras</a>
+                                        </div>
+                                        <div class="col-6"> 
+                                            <button class="btn btn-success w-50" type="submit">Registrar Posición</button>
+                                        </div>
+                                    </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+{% endblock %}

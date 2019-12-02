@@ -1,0 +1,62 @@
+{% extends "apuesta/selecTipoApuesta.html" %}
+{% load static %}
+<!--Muestra las carrera y la opcion de apostar-->
+
+{% block carreras_jornada %}
+		<h3 class="mb-md-3 text-center text-white align-center">Horarios de las Carreras</h3>
+		<h3 class="mb-md-3 text-center text-black align-center">{{ jornada }}</h3>
+        <h5 class="mb-md-3 text-center text-black align-center">Seleccione la carrera a apostar</h5>
+        <h5 class="mb-md-3 text-center text-black align-center">Tipo de apuesta: {{tipoap.descripcion}}</h5>
+		{% block DetalleCarrera %}
+			<div class="col-md-10 p-3 m-auto" >
+			<table class="table table-responsive text-center mb-0 tbl w-100 table-hover" id="tabla">
+			<thead class="thead-dark">
+				<tr>
+					<th>Hora de la carrera</th>
+					<th>Cantidad de Caballos</th>
+					<th>Distancia</th>
+					<th>Estado</th>
+					<th>Opciones</th>
+				</tr>
+			</thead>
+				<tbody>
+					{% for carr in carreras  %}
+					<tr>
+						<td>{{carr.hora|time:"h:i A"}}</td>
+						<td>{{carr.cant_caballos}}</td>
+						<td>{{carr.distancia}} mts</td>
+						<td>{{carr.get_estatus_display}}</td>
+						<!--Condicional para los tipos de apuestas-->
+						{% if tipoap.id == 1 %} 
+						<td><a href="{% url 'Apuesta_Ganador' hip.id tipoap.id carr.id %}" class="btn btn-warning" role = "button">Apostar</a></td>
+						{% elif tipoap.id == 2 %}
+						<td><a href="{% url 'Apuesta_Exacta' hip.id tipoap.id carr.id %}" class="btn btn-warning" role = "button">Apostar</a></td>
+						{% elif tipoap.id == 3 %}
+						<td><a href="{% url 'Apuesta_Trifecta' hip.id tipoap.id carr.id %}" class="btn btn-warning" role = "button">Apostar</a></td>
+						{% elif tipoap.id == 4 %}
+						<td><a href="{% url 'Apuesta_Superfecta' hip.id tipoap.id carr.id %}" class="btn btn-warning" role = "button">Apostar</a></td>
+						{% elif tipoap.id == 5 %}
+						<td><a href="{% url 'Apuesta_Place' hip.id tipoap.id carr.id %}" class="btn btn-warning" role = "button">Apostar</a></td>
+						{% elif tipoap.id == 6 %}
+						<td><a href="{% url 'Apuesta_Show' hip.id tipoap.id carr.id %}" class="btn btn-warning" role = "button">Apostar</a></td>
+						{% endif %}					
+						</tr>
+					{% endfor %}
+				</tbody>   
+			</table>
+			</div> 
+		{% endblock%} 
+	<!--aqui tan-->	
+	</div>
+</div> 		
+{% endblock  %}
+
+{% block scripts %}
+    <script type="text/javascript" src="{% static 'js/tablas/tablaSencilla.js'%}"></script>
+	<script>
+		window.onload = function() {
+			$('#hp{{hip.id}}').addClass('active');
+			$('#ap{{tipoap.id}}').addClass('active');
+		};   
+	</script>
+{% endblock %}

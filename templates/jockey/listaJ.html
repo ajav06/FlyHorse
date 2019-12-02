@@ -1,0 +1,126 @@
+{% extends 'inicio/gestionar.html' %}
+{% load static %}
+
+{% block gestionar %}
+    {% if user.type_u.codigo == 'admin' or user.type_u.codigo == 'user' %}
+        <div class="section d-flex">
+            <div class="justify-content-center container" style="height: 90%;width: 100%">  
+                <div class="d-flex container2 text-center justify-content-center">
+                    <ul class="nav nav-tabs" role="tablist">
+                    {% if user.type_u.codigo == 'admin' %}
+                        <li class="nav-item">
+                            <a class="nav-link" id="Titul">Gestionar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'histMv' '-' %}">Moneda</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'listaU'  '-' %}">Usuarios</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'listaH' '-' %}">Hipódromos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'listaCb' '-' %}">Caballos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'listaJk' '-' %}">Jockeys</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'listaE' '-' %}">Entrenadores</a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" id="Titul">Estadísticas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'estadAp' %}">Rendimiento de Apuestas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'listaCb' '-' %}">Caballos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'listaH' '-' %}">Hipódromos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'listaJk' '-' %}">Jockey</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'listaE' '-' %}">Entrenadores</a>
+                        </li>
+                    {% endif %}
+                    </ul>
+                        
+                    <div class="tab-content">
+                        <div class="tab-pane card-body active" role="tabpanel">
+                            {% if user.type_u.codigo == 'admin' %}
+                            <h3 class="mb-md-3 text-center text-white align-center">Gestionar Jockey</h3>
+                            {% else %}
+                            <h3 class="mb-md-3 text-center text-white align-center">Listado de Jockeys</h3>
+                            {% endif %}
+                            <div class="col-md-10 p-3 m-auto" >
+                                {% if object_list %}
+                                <input type="text" class="form-control w-25 fa-align-right" id="filtro" placeholder="Buscar..." style="float:right">
+                                    <table class="table table-responsive text-center mb-0 tbl w-100 table-hover" id="tabla">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th>Nombre</th>
+                                                <th>Peso en Kg</th>
+                                                <th>Fecha de Nacimiento</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for jockey in object_list %}
+                                                <tr>
+                                                    <td>{{ jockey.nombre }}</td>
+                                                    <td>{{ jockey.peso }}</td>
+                                                    <td>{{ jockey.fecha_nac }}</td>
+                                                    <td>
+                                                        {% if user.type_u.codigo == 'admin' %}
+                                                        <a class="btn btn-warning w-100" href="{% url 'actuJk' jockey.id %}">Editar <i class="fas fa-edit"></i> </a>
+                                                        <a class="btn btn-danger w-100" href="{% url 'elimJk' jockey.id %}">Eliminar <i class="fas fa-trash-alt"></i> </a>
+                                                        {% else %}
+                                                        <a class="btn btn-warning w-100" href="{% url 'estadJk' jockey.id %}">Estadísticas <i class="fas fa-chart-bar"></i> </a>
+                                                        {% endif %}
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    {% else %}
+                                    </br>
+                                    <h3 class="mb-md-3 text-center text-white align-center">Primero Registre un Jockey</h3>
+                                    <a class="btn btn-warning w-100" href="{% url 'incluirJk' '-' %}">Incluir</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>     
+            </div>
+        </div>
+    {% else %}
+        <div class="d-flex justify-content-center h-100">
+            <div class="card">
+                <div class="card-header text-center border-0">
+                    <img class="img-fluid w-50" src="{% static 'img/iniciar/Error.png'%}">
+                </div>
+                <div class="card-body">
+                    <h2 class="text-center" style="color: white">ERROR EN LA URL</h2>
+                </div>
+                <div class="card-footer text-center border-0">
+                    <a class="iniciar btn btn-warning w-50" href="{% url 'inicio' %}" style="color: black">Volver al Inicio</a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript" src="{% static 'js/tablas/listadoGenerico.js'%}"></script>
+    <script>
+        $( document ).ready(function() {
+            $("#opExitosa").modal('{{ show }}')
+        });   
+    </script>
+{% endblock %}

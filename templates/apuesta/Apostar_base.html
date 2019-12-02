@@ -1,0 +1,66 @@
+{% extends "base/inicio.html" %}
+{% load static %}
+<!--Cuadro para seleccioar el hipodormo donde apostar-->
+
+{% block principal %}
+    {% if user.type_u.codigo == 'user' %}
+        <div class="section Hipodro d-flex">
+            <div class="justify-content-center container" style="height: 90%;width: 100%">
+                <div class="d-flex container2 text-center justify-content-center">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link" id="Titul">Hipódromos</a>
+                        </li>
+                        {% if object_list %}
+                            {% for hipodromo in object_list %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'selecTipoApuesta' hipodromo.pk %}" role="tab" id="hp{{ hipodromo.id }}">{{ hipodromo.nombre }}</a>
+                                </li>
+                            {% endfor %}
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link hp1 Desactivar active" data-toggle="tab" href="#hp1" role="tab" aria-controls="hp1">No hay Hipodromos</a>
+                            </li>
+                        {% endif %} 
+                    </ul>
+                    {% block carrerasHipodromo %}
+                    <div class="tab-content">
+                        <div class="card-body centrar" id="hp1" role="tabpanel">
+                        <h1>¡Hola, {{ user.username }}!</h1>
+                        <p style="text-align:center">&nbsp; Para Comenzar, primero elige uno de los Hipódromo que se encuentran a tu Izquierda, donde te aparecerán las Jornadas Hípicas en las cuales podrás Apostar. <b>¡Felices apuestas!</b></p>    
+                        </br>
+                        <img class="img-fluid" src="{% static 'img/FH logo.png' %}" style="width: 450px">  
+                        {% endblock %}
+                    <!--los div de cierre estan en el archivo que viene--> 
+                    </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="d-flex justify-content-center h-100">
+            <div class="card">
+                <div class="card-header text-center border-0">
+                    <img class="img-fluid w-50" src="{% static 'img/iniciar/Error.png'%}">
+                </div>
+                <div class="card-body">
+                    <h2 class="text-center" style="color: white">ERROR EN LA URL</h2>
+                </div>
+                <div class="card-footer text-center border-0">
+                    <a class="iniciar btn btn-warning w-50" href="{% url 'inicio' %}" style="color: black">Volver al Inicio</a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $( document ).ready(function() {
+        $("#opExitosa").modal('{{ show }}')
+    });
+    window.onload = function() {
+        $('#hp{{hip.id}}').addClass('active');
+    };   
+</script>
+
+
+{% endblock %}

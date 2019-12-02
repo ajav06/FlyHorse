@@ -1,0 +1,81 @@
+{% extends 'inicio/gestionar.html' %}
+{% load static %}
+
+{% block gestionar %}
+    {% if user.type_u.codigo == 'user' %}
+        <div class="section d-flex">
+            <div class="justify-content-center container" style="height: 90%;width: 100%">  
+                <div class="d-flex container2 text-center justify-content-center">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                                <a class="nav-link" id="Titul">Estadísticas</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'estadAp' %}">Rendimiento de Apuestas</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" href="{% url 'listaCb' '-' %}">Caballos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'listaH' '-' %}">Hipódromos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'listaJk' '-' %}">Jockey</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'listaE' '-' %}">Entrenadores</a>
+                            </li>
+                    </ul>
+                        
+                    <div class="tab-content">
+                        <div class="tab-pane card-body active" role="tabpanel">
+                            <div class="col-md-10 p-3 m-auto" >
+                                <div class="tab-pane card-body active" role="tabpanel">
+                                    <h3 class="mb-md-3 text-center text-white align-center">Estadísticas de Caballo</h3>
+                                     {% if media != '0.000' %}
+                                        <h5 class="txtst">{{ caballo.nombre }}</h5>
+                                        <div class="grid-estadisticas">
+                                        <div class="grid-estadisticas-img1"><div class="txtst"><b>Histograma de Posiciones del Caballo:</b></div> <div id="tester"  style="width: 600px; height=50px;" alt="Histograma"></div></div>  
+                                        <div><div class="txtst"><b>Posición media:</b></div> {{ media }}</div>
+                                        <div><div class="txtst"><b>Variación:</b></div> ±{{ variacion }} posiciones</div>
+                                        {% else %}
+                                        <div class="active">
+                                            <h3 class="mb-md-3 text-center text-white align-center">El caballo aún no ha participado en ninguna carrera.</h3>
+                                            <a class="btn btn-warning w-100" href="{% url 'listaCb' '-' %}"> Volver al Listado <i class="fas fa-edit"></i> </a>
+                                        </div>
+                                        {% endif %}
+                                        </div>
+                                    </div> 
+                             </div>     
+                        </div>
+                    </div>
+    {% else %}
+        <div class="d-flex justify-content-center h-100">
+            <div class="card">
+                <div class="card-header text-center border-0">
+                    <img class="img-fluid w-50" src="{% static 'img/iniciar/Error.png'%}">
+                </div>
+                <div class="card-body">
+                    <h2 class="text-center" style="color: white">ERROR EN LA URL</h2>
+                </div>
+                <div class="card-footer text-center border-0">
+                    <a class="iniciar btn btn-warning w-50" href="{% url 'inicio' %}" style="color: black">Volver al Inicio</a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+var data = [
+  {
+    x: ['Primer Lugar', 'Segundo Lugar', 'Tercer Lugar', 'Cuarto Lugar', 'Quinto Lugar'],
+    y: [{{ posiciones_lugar }}],
+    type: 'bar'
+  }
+];
+
+Plotly.newPlot('tester', data);
+</script>
+{% endblock %}

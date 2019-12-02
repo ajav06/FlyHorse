@@ -1,0 +1,78 @@
+{% extends 'configuracion/configuracion.html' %}
+{% load static %}
+
+{% block datosP %}
+    <div class="tab-pane active card-body" id="ajusPer" role="tabpanel">
+        <h3 class="mb-md-3 text-center text-white align-center">Actualizar Usuario</h3>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="input-group form-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                </div>
+                <input id="username" type="text" class="form-control" value="{{ user.username }}" name="username" disabled>
+            </div>
+
+            <div class="input-group form-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-birthday-cake "></i></span>
+                </div>
+                <input type="date" class="form-control" placeholder="Fecha de Nacimiento" name="birth_date" value="{{ user.birth_date|date:'Y-m-d' }}">
+                {{ form.birth_date.errors }}
+            </div>
+
+            <div class="input-group form-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                </div>
+                <input type="text" class="form-control" placeholder="Nombre" name="first_name" value="{{ user.first_name }}">
+                {{ form.first_name.errors }}
+            </div>
+
+            <div class="input-group form-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                </div>
+                <input type="text" class="form-control" placeholder="Apellido" name="last_name" value="{{ user.last_name }}">
+                {{ form.last_name.errors }}
+            </div>
+
+            <div class="input-group form-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                </div>
+                <input type="email" class="form-control" placeholder="Correo Electrónico" name="email" value="{{ user.email }}">
+                {{ form.email.errors }}
+            </div>
+
+            <div class="input-group form-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                </div>
+                <input type="phone2numeric" class="form-control" placeholder="Telefono" name="phone" value="{{ user.phone }}">
+                {{ form.phone.errors }}
+            </div>
+
+            <div class="input-group form-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-globe-americas"></i></span>
+                </div>
+                <input type="text" class="form-control" placeholder="Estado" name="city" value="{{ user.city }}">
+                {{ form.city.errors }}
+            </div>
+
+            <div class="input-group form-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                </div>
+                <input type="text" class="form-control" placeholder="Ciudad" name="location" value="{{ user.location }}">
+                {{ form.location.errors }}
+            </div>
+
+            <div class="form-group row">
+                <a class="iniciar btn btn-warning w-50 col-4" href="{% url 'configuraciones' %}">Volver</a>
+                <button class="iniciar btn btn-success w-50 col-4" type="submit">Actualizar</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

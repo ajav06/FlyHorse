@@ -1,0 +1,71 @@
+{% extends 'base/inicio.html' %}
+{% load static %}
+
+{% block consulta %}
+    {% if user.type_u.codigo != 'admin' or user.type_u.codigo != 'encar' %}
+        <div class="section d-flex">
+            <div class="justify-content-center container" style="height: 90%;width: 100%">
+                    
+                <div class="d-flex container2 text-center justify-content-center">
+                    <ul class="nav nav-tabs " role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link" id="Titul">Gestión de Transacciones</a>
+                        </li>
+                        
+                        {% if user.type_u.codigo == 'user' %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'saldo' %}">Saldo</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'trans' '-' %}" >Transacciones</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'recar' %}">Recargar</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'retir' %}">Retirar</a>
+                            </li>                            
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'transPendientes' %}">Pendientes</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'transAprobadas' %}" >Aprobadas</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'transRechazadas' %}">Rechazadas</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active card-body">
+                                <h1>¡Hola, {{ user.username }}!</h1>
+                                <p style="text-align:center">&nbsp; Para poder Realizar una Transacción, Primero selecciona una de las Opciones que se encuentran a tu Izquierda. <b>¡Felices apuestas!</b></p>    
+                                 </br>
+                                <img class="img-fluid" src="{% static 'img/FH logo.png' %}" style="width: 450px">
+                            </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    {% else %}
+        <div class="d-flex justify-content-center h-100">
+            <div class="card">
+                <div class="card-header text-center border-0">
+                    <img class="img-fluid w-50" src="{% static 'img/iniciar/Error.png'%}">
+                </div>
+                <div class="card-body">
+                    <h2 class="text-center" style="color: white">ERROR EN LA URL</h2>
+                </div>
+                <div class="card-footer text-center border-0">
+                    <a class="iniciar btn btn-warning w-50" href="{% url 'inicio' %}" style="color: black">Volver al Inicio</a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block principal %}
+{% endblock %}

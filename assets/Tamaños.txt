@@ -1,0 +1,7 @@
+Tamaño pixeles 
+
+XS (<575) extrasmall 		celular
+SM (576-767) small			celular
+lg (768-991) medium			smatphone o tablet
+LG (992 - 1199) large		monitores viejos o tables de alta resolucion 
+XL (>1200) extralarge		monitores grandes 

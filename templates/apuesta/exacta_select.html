@@ -1,0 +1,97 @@
+{% extends "apuesta/selectp.html" %}
+{% load static %}
+
+{% block stp %}
+                
+    <div class="d-flex container2 text-center justify-content-center">
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link" id="Titul">Seleccion el tipo de apuesta</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'apga' %}">Ganador</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'ap56'%}">5 y 6</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="{% url 'apex'%}">Exacta</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Superfecta</a>
+            </li>        
+        </ul>
+        <div class="tab-content">
+            {% block tp %}
+                <div class="tab-pane active card-body" id="sim" role="tabpanel">
+                      <h3 class="mb-md-3 text-center text-white align-center">Exacta</h3>
+                      <div class="col-md-10 p-3 m-auto" >
+                          <table class="table table-responsive text-center mb-0 tbl w-100 table-hover">
+                              <thead class="thead-dark">
+                                      <th> Carrera #3
+                                      <tr>
+                                      <th>#</th>
+                                      <th>Caballo</th>
+                                      <th>Jockey</th>
+                                      <th>1ero</th>
+                                      <th>2do</th>
+                                  </tr>
+                                  </th>
+                              </thead>
+                              <tbody>
+                                  <tr>
+                                      <th scope="row">5</th>
+                                      <td>Gold Skies</td>
+                                      <td>F. Urdaneta</td>
+                                      <td><input type="checkbox" name="ganador"> <br></td>
+                                      <td><input type="checkbox" name="ganador"> <br></td>
+                                  </tr>
+                                  <tr>
+                                      <th scope="row">8</th>
+                                      <td>LUCKY DAVID</td>
+                                      <td>J. NAVA</td>
+                                      <td><input type="checkbox" name="ganador"> <br></td>
+                                      <td><input type="checkbox" name="ganador"> <br></td>
+                                  </tr>
+                                  <tr>
+                                      <th scope="row">2</th>
+                                      <td>HURACAN SLEW</td>
+                                      <td>C. RUBIO</td>
+                                      <td><input type="checkbox" name="ganador"> <br></td>                                            
+                                      <td><input type="checkbox" name="ganador"> <br></td>                                            
+                                  </tr>
+                                  <tr>
+                                      <th scope="row">4</th>
+                                      <td>SEBASTIAN ZETA</td>
+                                      <td>I.PIMENTEL JR</td>
+                                      <td><input type="checkbox" name="ganador"> <br></td>                                            
+                                      <td><input type="checkbox" name="ganador"> <br></td> 
+                                  </tr>
+                                  <tr>
+                                      <th scope="row">4</th>
+                                      <td>LA GRAN CAMUCHA</td>
+                                      <td>J.C. RODRIGUEZ</td>
+                                      <td><input type="checkbox" name="ganador"> <br></td>                                           
+                                      <td><input type="checkbox" name="ganador"> <br></td>                                                                                                                                </tr>
+                                  <tr>
+                                      <th scope="row">4</th>
+                                      <td>AMERICANA</td>
+                                      <td>J. NAVA</td>
+                                      <td><input type="checkbox" name="ganador"> <br></td>                                            
+                                      <td><input type="checkbox" name="ganador"> <br></td>
+                                  </tr>
+                              </tbody>
+                              </table>
+                          <div class="card-footer text-center border-0">
+                              <a href="#" class="iniciar btn btn-warning w-60" id='apustAp'>Apostar</a>
+                          </div>
+                      </div>
+                </div> 
+            {% endblock %}
+        </div>
+    </div>
+    
+{% endblock%}
+
+
+

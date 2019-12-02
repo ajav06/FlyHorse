@@ -1,0 +1,310 @@
+
+/* h1:hover,
+h3:hover,
+a:not(.disabled):hover {
+    color: #001;
+    text-shadow: 2px 0 .2px rgba(255, 0, 0, 1), -2px 0 .2px rgba(0, 255, 255, 1);
+} */
+a:hover {
+    text-decoration: none;
+}
+
+#menu {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 70;
+    -webkit-font-smoothing: antialiased;
+    -moz-font-smoothing: antialiased;
+    letter-spacing: 1px;
+    font-size: 1.1em;
+}
+
+#menu li {
+    display: inline-block;
+    margin: 10px 0;
+}
+
+#menu a {
+    color: #000;
+    padding: 0 .5rem;
+    cursor: pointer;
+    font-weight: normal;
+}
+
+#menu a.menu-active,
+#menu a:hover {
+    font-weight: bold;
+}
+
+#menu a.menu-active+.menu-line {
+    position: relative;
+    display: block;
+    height: 2px;
+    width: 100%;
+    background: #000;
+}
+
+.navbar {
+    padding: 20 !important;
+}
+
+#logo-header img{
+    /* background-image: url('../img/logo-header.png') */
+    width: 200px;
+}
+
+#section-inicio {
+    overflow: hidden;
+}
+
+#div-logo {
+    z-index: 5;
+    left: 0;
+    right: 0;
+    top: 10%;
+}
+
+#logo {
+    width: 25%;
+}
+
+#section-inicio .d-flex img {
+    height: 100px;
+    width: auto;
+}
+
+#pista {
+    z-index: 0;
+    left: 0;
+    right: 0;
+    top:0;
+    bottom: 0;
+    /* height: 100%; */
+    /* width: auto; */
+    background-image: url(../img/inicio/pista.png);
+    background-size: cover;
+    height: 100vh;
+    /* background-position: 0 0; */
+    background-repeat: repeat-x;
+    animation: mov-pista 15s 2.5s infinite;
+}
+
+@keyframes mov-pista {
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: 100% 0;
+    }
+}
+
+#puerta {
+    left: 0;
+    bottom: 0;
+    z-index: 6;
+    height: 50%;
+    transform-origin: 0;
+    transform: perspective(400px) rotateY(90deg);
+    animation: abrir 2.5s;
+}
+
+@keyframes abrir{
+    75% {
+        transform: perspective(400px) rotateY(0deg);
+    }
+
+    100% {
+        transform: translateX(-100%);
+        transition: all 15s;
+    }
+}
+
+#caballo-1 {
+    z-index: 1;
+    bottom: -20%;
+    animation: carrera1 15s infinite;
+}
+
+#caballo-2 {
+    z-index: 2;
+    bottom: -20%;
+    animation: carrera2 15s infinite;
+}
+
+#caballo-3 {
+    z-index: 3;
+    bottom: -24%;
+    animation: carrera3 15s infinite;
+}
+
+#caballo-4 {
+    z-index: 4;
+    bottom: -26%;
+    animation: carrera4 15s infinite;
+}
+
+@keyframes carrera1 {
+    0% {
+        left: -100%;
+    }
+
+    50% {
+        left: 50%;
+    }
+
+    100% {
+        left: 100%;
+    }
+}
+
+@keyframes carrera2 {
+    0% {
+        left: -100%;
+    }
+
+    100% {
+        left: 100%;
+    }
+
+}
+
+@keyframes carrera3 {
+    0% {
+        left: -100%;
+    }
+
+    75% {
+        left: 80%;
+    }
+
+    100% {
+        left: 100%;
+    }
+}
+
+@keyframes carrera4 {
+    0% {
+        left: -100%;
+    }
+
+    25% {
+        left: 0;
+    }
+
+    100% {
+        left: 100%;
+    }
+}
+
+#section-iniciarSesion {
+    color: #fff;
+    background: #cae2ee;
+}
+
+.bg-img-right {
+    bottom: 0;
+    right: 0;
+    width: 35%;
+}
+
+.bg-img-left {
+    bottom: 0;
+    left: 0;
+    width: 35%;
+}
+
+#section-iniciarSesion .card-footer a {
+    color: #ffc107;
+}
+
+.card {
+    min-width: 30% !important;
+    height: auto !important;
+    background-color: rgba(0, 0, 0,0.75) !important;
+}
+
+.card-header,
+.card-footer {
+    background: rgba(0, 0, 0,0) !important;
+}
+
+#section-comoJugar {
+    background: #464e73;
+    color: #fff;
+}
+
+#carousel-cj p {
+    font-size: 1.75rem;
+    color: #ffc107;
+}
+
+#carousel-cj p span {
+    font-weight: bold;
+    background:#44b2cb;
+    border-radius: 100%;
+    padding: 0 .5%;
+    color: #fff;
+}
+
+#carousel-cj img {
+    width: 100%;
+    max-width: 1000px;
+}
+
+#carousel-cj .carousel-inner {
+    height: 50%;
+}
+
+#carousel-cj .carousel-control-next, 
+#carousel-cj .carousel-control-prev {
+    width: 20%;
+}
+
+.dataTables_wrapper .dataTables_paginate {
+    float: initial !important;
+    text-align: center !important;
+}
+
+.carousel-control-next-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='#ffc107' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E");
+}
+
+.carousel-control-prev-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='#ffc107' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E");
+}
+
+#section-dondeJugar {
+    background: rgb(35, 190, 195);
+}
+
+#tabla-centros_filter input {
+    width: 20rem;
+    border-radius: .5rem !important;
+}
+
+#tabla-centros_filter label {
+    font-weight: bold;
+}
+
+#tabla-centros input:focus {
+    box-shadow: none;
+}
+
+
+#tabla-centros .paginate_button {
+    color: black !important;
+    font-size: 2rem;
+
+}
+
+#section-reglamento {
+    background: #fea621;
+} 
+
+#pdf {
+    border: none;
+    width: 50%;
+    height: 75%;
+}

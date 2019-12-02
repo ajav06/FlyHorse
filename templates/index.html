@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html leng="es">
+
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="author" content="AJAV06 - @ajav06">
+        <title>{% block title %} FlyHorse | Apuestas Hípicas Online {% endblock %}</title> 
+    </head>
+    
+         
+        <body>
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                {{ form.errors }}
+                <a href="{% url 'incluirCr' %}" class="btn btn-primary"> Volver</a>
+                <button type="submit" class="btn btn-primary">Incluir</button>
+            </form>
+        </body>
+    
+
+</html>

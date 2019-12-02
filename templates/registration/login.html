@@ -1,0 +1,50 @@
+{% extends 'base/base_generic.html' %}
+{% load static %}
+
+{% block inicioS %}
+    
+	<div id="section-iniciarSesion" class="section" data-anchor="Iniciar_Sesion"> 
+		<div class="d-flex justify-content-center h-100">
+			<img class="bg-img-right img-fluid position-absolute" src="{% static 'img/iniciar/icon-iniciar.png'%}">
+			<div class="card">
+				<div class="card-header text-center border-0">
+					<img class="img-fluid w-50" src="{% static 'img/iniciar/icono-inicio-de-sesion.png'%}">
+				</div>
+				<div class="card-body">
+					<form method="POST">
+						{% csrf_token %}
+							<div class="input-group form-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text"><i class="fas fa-user"></i></span>
+								</div>
+								<input id="login_username" type="text" class="form-control" placeholder="Usuario" name="username">
+								{{ form.username.errors }}
+								{{ form.username.help_text }}
+							</div>
+					
+							<div class="input-group form-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text"><i class="fas fa-key"></i></span>
+								</div>
+								<input type="password" class="form-control" placeholder="Contraseña" name="password">
+								{{ form.password.errors }}
+								{{ form.password.help_text }}
+							</div>
+							{% if form.errors %}
+								<h5 class="text-center"> Por favor, introduzca un nombre de usuario y clave correctos. Observe que ambos campos pueden ser sensibles a mayúsculas. </h5>
+							{% endif %}
+
+							<div class="form-group">
+								<button class="btn btn-warning w-100" type="submit">Iniciar</button>
+							</div>
+						</form> 
+				</div>
+				<div class="card-footer text-center border-0">
+					¿No tienes cuenta? <a id="form-registrar" href="{% url 'signIn' %}">Regístrate</a>
+				</br><a id="form-recuperar" href="{% url 'reset' %}">¿Olvidaste la contraseña?</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

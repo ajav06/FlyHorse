@@ -1,0 +1,94 @@
+{% extends 'base/inicio.html' %}
+{% load static %}
+
+{% block configuracion %}
+    <div class="section d-flex">
+        <div class="justify-content-center container" style="height: 90%;width: 100%">
+                
+            <div class="d-flex container2 text-center justify-content-center">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link" id="Titul">Configuraciones</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link Desactivar active" href="{% url 'configuraciones' %}">Datos Personales</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    {% block datosP %}
+                       <div class="tab-pane Desactivar active card-body" role="tabpanel">
+                            <h3 class="mb-md-3 text-center text-white align-center">Detalles Usuario</h3>
+                            <form method="POST">
+                                {% csrf_token %}
+                                <div class="input-group form-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                    </div>
+                                    <input id="username" type="text" class="form-control" value="{{ user.username }}" disabled>
+                                </div>
+
+                                <div class="input-group form-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-birthday-cake"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Fecha de Nacimiento" value="{{ user.birth_date }}" disabled>
+                                </div>
+
+                                <div class="input-group form-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Nombre" value="{{ user.first_name }}" disabled>
+                                </div>
+
+                                <div class="input-group form-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Apellido" value="{{ user.last_name }}" disabled>
+                                </div>
+
+                                <div class="input-group form-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                    </div>
+                                    <input type="email" class="form-control" placeholder="Correo Electrónico" value="{{ user.email }}" disabled>
+                                </div>
+
+                                <div class="input-group form-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                                    </div>
+                                    <input type="phone2numeric" class="form-control" placeholder="Telefono" value="{{ user.phone }}" disabled>
+                                </div>
+
+                                <div class="input-group form-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-globe-americas"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Estado" value="{{ user.city }}" disabled>
+                                </div>
+
+                                <div class="input-group form-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Ciudad" value="{{ user.location }}" disabled>
+                                </div>
+
+                                <div class="form-group">
+                                    <a class="iniciar btn btn-warning w-50" href="{% url 'datosP' user.id %}">Actualizar</a>
+                                </div>
+                            </form>
+                        </div>
+                        {% endblock %}
+                </div>
+            </div>
+
+        </div>
+    </div>        
+{% endblock %}
+
+{% block principal %}
+
+{% endblock %}

@@ -1,0 +1,178 @@
+{% extends "apuesta/Ap_Unicarrera.html" %}
+{% load static %}
+
+{% block DetalleCarrera %}
+		<div class="col-md-10 p-3 m-auto" >
+		<table class="table table-responsive text-center mb-0 tbl w-100 table-hover" id="tabla">
+		<thead class="thead-dark">
+			<tr>
+				<th>Número en Carrera</th>
+				<th>Nombre del Caballo</th>
+				<th>Nombre del Jockey</th>		
+				<th>Estado Actual</th>
+			</tr>
+		</thead>
+            <tbody>
+				{% for carr in detalle %}
+				<tr>
+					<td>{{carr.numero}}</td>
+					<td>{{carr.id_caba}}</td>
+					<td>{{carr.id_jock}}</td>
+					<td>{{carr.get_estatus_display}}</td>
+				{% endfor %}
+			</tbody>   
+		</table>
+		</div>
+        <div class="card-footer text-center border-0">
+			<form method="POST">
+				{% csrf_token %}
+					
+						<!--Apuesta-->                                
+						<fieldset class="formFieldset apue row">
+							<!--tipo apuesta-->
+							<div class="input-group form-group tApuesta formField d-none">
+								<div class="input-group-prepend">
+									<span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+								</div>
+								<input type="number" class="form-control" placeholder="Tipo de apuesta" name="apue-tApuesta" value="{{ tipoap.id }}">
+								{{ form.apue.tApuesta.errors }}
+							</div>
+							
+							<!--carrera-->
+							<div class="input-group form-group apue formField col-6">
+								<div class="input-group-prepend">
+									<span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+								</div>
+								<input type="text" class="form-control" placeholder="Carrera" value="Hora de la Carrera {{ carreras.hora|time:'h:i A' }}" disabled>
+								{{ form.apue.id_carr.errors }}
+							</div>
+
+							<!--carrera-->
+							<div class="input-group form-group apue formField d-none">
+								<div class="input-group-prepend">
+									<span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+								</div>
+								<input type="text" class="form-control" placeholder="Carrera" name ="apue-id_carr" value="{{ carreras.id }}">
+								{{ form.apue.id_carr.errors }}
+							</div>
+
+							<!--cuota-->
+							<div class="input-group form-group cuota formField col-6">
+								<div class="input-group-prepend">
+									<span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+								</div>
+								<input type="text" class="form-control" placeholder="Cuota" name ="apue-cuota" value="1" id="cuota">
+								{{ form.apue.cuota.errors }}
+							</div>
+						</fieldset>
+					<div class="row">
+						<!--Detalles Apuesta1-->
+						<fieldset class="formFieldset detaAp col-6">
+							<!--caballo-->
+							<div class="input-group form-group required id_cab formField">
+								<div class="input-group-prepend">
+									<span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+								</div>
+								<select class="form-control" name="detaAp-id_cab" id="deta1">
+									<option value="">Elige el Competidor a Apostar</option>
+									{% for carr in detalle %}
+										{% if carr.estatus == 'a' %}
+											<option value="{{ carr.id_caba.id }}">{{ carr.id_caba }}</option>
+										{% endif %}
+									{% endfor %}
+								</select>
+								{{ form.detaAp.id_cab.errors }}
+							</div>
+						</fieldset>
+
+						<!---Transaccion--->
+						<fieldset class="formFieldset trans col-6">
+							<!--Monto -->
+							<div class="input-group formField required form-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+								</div>
+								<input type="number" class="form-control" placeholder="Monto en HRC a Apostar" name ="trans-monto" step="any">                                
+								{{ form.trans.monto.errors }}
+							</div>
+
+							<!--Usuario-->
+							<div class="input-group formField usua form-group d-none">
+								<div class="input-group-prepend">
+									<span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+								</div>
+								<input type="number" class="form-control" placeholder="Usuario" name ="trans-usua" value="{{ user.id }}" >
+								{{ form.trans.usua.errors }}
+							</div>
+
+							<!--Descripcion-->
+							<div class="input-group formField form-group d-none">
+								<div class="input-group-prepend">
+									<span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+								</div>
+								<input type="text" class="form-control" placeholder="Descripcion" name ="trans-descripcion" value="3">
+								{{ form.trans.descripcion.errors }}
+							</div>
+
+							<!--Tipo-->
+							<div class="input-group formField form-group d-none">
+								<div class="input-group-prepend">
+									<span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+								</div>
+								<input type="text" class="form-control" placeholder="Tipo de Transaccion" name ="trans-tipo" value="d">
+								{{ form.trans.tipo.errors }}
+							</div>
+
+							<!--Estado-->
+							<div class="input-group formField form-group d-none">
+									<div class="input-group-prepend">
+										<span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+									</div>
+									<input type="text" class="form-control" placeholder="Tipo de Transaccion" name ="trans-estado" value="c">
+									{{ form.trans.estado.errors }}
+								</div>
+						</fieldset>
+					</div>
+
+					<h5>Por cada 100 HRC apostados obtendrás <span id="ganancia"></span> HRC</h5>
+					<a href="{% url 'incluirCr'%}" class="btn btn-primary"> Volver</a>
+					<button type="submit" class="btn btn-primary">Apostar</button>
+			</form>
+		</div> 
+{% endblock%} 
+
+{% block scripts %}
+    <script type="text/javascript" src="{% static 'js/tablas/tablaSencilla.js'%}"></script>
+	<script>
+		window.onload = function() {
+			$('#hp{{hip.id}}').addClass('active');
+			$('#ap{{tipoap.id}}').addClass('active');
+		};   
+	</script>
+
+<script>
+var ids = [
+	{% for id in multiplicadores_id %}
+	"{{id}}",
+	{% endfor %}
+]
+
+var mult = [
+	{% for m in multiplicadores %}
+	"{{m}}",
+	{% endfor %}	
+]
+
+$('#deta1').change(function() {
+	var pos = $("#deta1 option:selected").index() - 1;
+	var cuotanva = mult[pos];
+	$('#cuota').val(cuotanva);
+	document.getElementById('ganancia').innerHTML = parseFloat(cuotanva*100);
+});
+
+    $( document ).ready(function() {
+    	$('#ganancia').html(100);
+	});   
+
+</script>
+{% endblock %}

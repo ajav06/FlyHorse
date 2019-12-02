@@ -1,0 +1,112 @@
+{% extends 'inicio/gestionar.html' %}
+{% load static %}
+
+{% block gestionar %}
+    {% if user.type_u.codigo == 'encar' %}
+        <div class="section d-flex">
+            <div class="justify-content-center container" style="height: 90%;width: 100%">  
+                <div class="d-flex container2 text-center justify-content-center">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link" id="Titul">Gestionar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'listaJh' '-' %}">Jornadas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'listaCr' %}">Carreras</a>
+                        </li>
+                    </ul>
+                        
+                    <div class="tab-content">
+                        <div class="tab-pane card-body active" role="tabpanel">
+                            <h3 class="mb-md-3 text-center text-white align-center">Gestionar Jornada</h3>
+                            <div class="col-md-10 p-3 m-auto" >
+                                {% if object_list %}
+                                <div class="input-group form-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-place-of-worship"></i></span>
+                                        </div>
+                                        <select id="filtrarestatus" class="form-control" name="estatus">
+                                            <option value="">Todos</option>
+                                            <option value="Activa">Activas</option>
+                                            <option value="Finalizada">Finalizadas</option>
+                                            <option value="Eliminada">Eliminadas</option>
+                                        </select>
+                                    </div>
+                                    </br>
+                                    </br>
+                                    <table id="tabla-carreras" class="table table-responsive text-center mb-0 tbl w-100 table-hover">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th>Codigo</th>
+                                                <th>Hipódromo</th>
+                                                <th>Fecha</th>
+                                                <th>Cantidad de Carrera</th>
+                                                <th>Estado</th>
+                                                <th>Consultar</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for jornada in object_list %}
+                                                <tr>
+                                                    <td>{{ jornada.id }}</td>
+                                                    <td>{{ jornada.id_hip.nombre }}</td>
+                                                    <td>{{ jornada.fecha }}</td>
+                                                    <td>{{ jornada.cant_carr }}</td>
+                                                    <td>
+                                                        
+                                                        {% if  jornada.estatus == 'a' %}
+                                                        <p>Activa</p>
+                                                        {% elif jornada.estatus == 'e' %}
+                                                        <p>Eliminada</p>
+                                                        {% else  %}
+                                                        <p>Finalizada</p>
+                                                        {% endif %}
+                                                            
+
+                                                    </td>
+                                                    <td>
+                                                        <a class="btn btn-warning w-100" href="{% url 'consJh' jornada.id '-' %}">Ver</a>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    {% else %}
+                                    </br>
+                                    <h3 class="mb-md-3 text-center text-white align-center">Primero Registre una Jornada</h3>
+                                    <a class="btn btn-warning w-100" href="{% url 'incluirJh' '-'  %}">Registrar</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>     
+            </div>
+        </div>
+    {% else %}
+        <div class="d-flex justify-content-center h-100">
+            <div class="card">
+                <div class="card-header text-center border-0">
+                    <img class="img-fluid w-50" src="{% static 'img/iniciar/Error.png'%}">
+                </div>
+                <div class="card-body">
+                    <h2 class="text-center" style="color: white">ERROR EN LA URL</h2>
+                </div>
+                <div class="card-footer text-center border-0">
+                    <a class="iniciar btn btn-warning w-50" href="{% url 'inicio' %}" style="color: black">Volver al Inicio</a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock %}
+
+{% block scripts %}
+   <script type="text/javascript" src="{% static 'js/tablas/listadoCarreras.js'%}"></script>  
+   <script>
+        $( document ).ready(function() {
+            $("#opExitosa").modal('{{ show }}')
+        });   
+    </script> 
+{% endblock %}

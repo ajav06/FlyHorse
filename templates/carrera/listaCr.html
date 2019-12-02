@@ -1,0 +1,126 @@
+{% extends 'inicio/gestionar.html' %}
+{% load static %}
+
+{% block gestionar %}
+    {% if user.type_u.codigo == 'encar' %}
+        <div class="section d-flex">
+            <div class="justify-content-center container" style="height: 90%;width: 100%">  
+                <div class="d-flex container2 text-center justify-content-center">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link" id="Titul">Gestionar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'listaJh' '-'%}">Jornadas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'listaCr' %}">Carreras</a>
+                        </li>
+                    </ul>
+                        
+                    <div class="tab-content">
+                        <div class="tab-pane card-body active" role="tabpanel">
+                            <h3 class="mb-md-3 text-center text-white align-center">Gestionar Carrera</h3>
+                            <div class="col-md-10 p-3 m-auto" >
+                            {% if object_list %}
+                                <div class="input-group form-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-place-of-worship"></i></span>
+                                    </div>
+                                    <select id="filtrarestatus" class="form-control" name="estatus">
+                                        <option value="">Todos</option>
+                                        <option value="Activa">Activas</option>
+                                        <option value="Corriendo">Corriendo</option>
+                                        <option value="Finalizada">Finalizadas</option>
+                                        <option value="Publicada">Publicadas</option>
+                                        <option value="Eliminada">Eliminados</option>
+                                    </select>
+                                </div>
+                                </br>
+                                </br>
+                                    <table id="tabla-carreras" class="table table-responsive text-center mb-0 tbl w-100 table-hover">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th>Jornada</th>
+                                                <th>Hora</th>
+                                                <th>Cantidad de Caballos</th>
+                                                <th>Distancia en MTS</th>
+                                                <th>Estatus</th>
+                                                <th>Acciones</th>
+                                                <th>Detalles Carrera</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for carrera in object_list %}
+                                                <tr>
+                                                    <td>{{ carrera.id_jh }}</td>
+                                                    <td>{{ carrera.hora }}</td>
+                                                    <td>{{ carrera.cant_caballos }}</td>
+                                                    <td>{{ carrera.distancia }}</td>
+                                                    <td>{% if carrera.estatus == 'a' %}
+                                                        <p>Activa</p>
+                                                    {% elif carrera.estatus == 'c' %}
+                                                        <p>Corriendo</p>
+                                                    {% elif carrera.estatus == 'f' %}
+                                                        <p>Finalizada</p>
+                                                    {% elif carrera.estatus == 'e' %}
+                                                        <p>Eliminada</p>
+                                                    {% elif carrera.estatus == 'p' %}
+                                                        <p>Publicada</p>
+                                                    {% endif %}
+                                                    </td>
+                                                    <td>
+                                                    {% if carrera.estatus == 'a' %}
+                                                        <a class="btn btn-warning w-100" href="{% url 'actuCr' carrera.id %}">Editar</a>
+                                                        <a class="btn btn-success w-100" href="{% url 'finalCr' carrera.id %}">Finalizar</a>
+                                                        <a class="btn btn-danger w-100" href="{% url 'elimCr' carrera.id %}">Eliminar</a>
+                                                    {% elif carrera.estatus == 'f' %}
+                                                    {% if carrera.publicable %}
+                                                        <a class="btn btn-primary w-100" href="{% url 'PubResultadosCr' carrera.id %}">Publicar</a>
+                                                    {% else %}
+                                                        <p>Registre los resultados de la carrera para poder publicarla</p>
+                                                    {% endif %}
+                                                    {% elif carrera.estatus == 'c' %}
+                                                        <a class="btn btn-success w-100" href="{% url 'finalCr' carrera.id %}">Finalizar</a>
+                                                    {% elif carrera.estatus == 'p' %}
+                                                        <p>Esta carrera ya fue publicada</p>
+                                                    {% endif %}
+                                                    </td>
+                                                    <td>
+                                                        <a class="btn btn-warning w-100" href="{% url 'detalleC' carrera.id '-' %}">Ver</a>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    {% else %}
+                                    </br>
+                                    <h3 class="mb-md-3 text-center text-white align-center">Primero Registre una Jornada</h3>
+                                    <a class="btn btn-warning w-100" href="{% url 'incluirCr' %}">Registrar</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>     
+            </div>
+        </div>
+    {% else %}
+        <div class="d-flex justify-content-center h-100">
+            <div class="card">
+                <div class="card-header text-center border-0">
+                    <img class="img-fluid w-50" src="{% static 'img/iniciar/Error.png'%}">
+                </div>
+                <div class="card-body">
+                    <h2 class="text-center" style="color: white">ERROR EN LA URL</h2>
+                </div>
+                <div class="card-footer text-center border-0">
+                    <a class="iniciar btn btn-warning w-50" href="{% url 'inicio' %}" style="color: black">Volver al Inicio</a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript" src="{% static 'js/tablas/listadoCarreras.js'%}"></script>
+{% endblock %}

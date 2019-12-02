@@ -1,0 +1,356 @@
+{% extends "apuesta/selecTipoApuesta.html" %}
+{% load static %}
+
+{% block carreras_jornada %}
+		<h3 class="mb-md-3 text-center text-white align-center">Horarios de las Carreras</h3>
+        <h5 class="mb-md-3 text-center text-white align-center">Seleccione la carrera a apostar</h5>
+        <h5 class="mb-md-3 text-center text-white align-center">Tipo de apuesta: {{tipoap.descripcion}}</h5>
+		<div class="col-md-10 p-3 m-auto">
+			<form method="POST">
+			{% csrf_token %}
+				{% if form.errors %}
+					{{form.errors}}
+				{% endif %}
+				<div style="overflow-y: auto; height: 400px; overflow-x: hidden;">
+					
+					{% for carr in carreras %}
+						<div class="row">
+						<!--Apuesta--> 
+						<fieldset class="formFieldset apue{{ forloop.counter }} col-6">
+							<!--tipo apuesta-->
+							<div class="input-group form-group tApuesta formField d-none">
+								<div class="input-group-prepend">
+									<span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+								</div>
+								<input type="number" class="form-control" placeholder="Tipo de apuesta" name="apue-tApuesta" value="{{ tipoap.id }}">
+								{{ form.apue.tApuesta.errors }}
+							</div>
+							
+							<!--carrera-->
+							<div class="input-group form-group formField ">
+								<div class="input-group-prepend">
+									<span class="input-group-text"><i class="fa fa-flag-checkered" aria-hidden="true"></i></span>
+								</div>
+								<input type="text" class="form-control" placeholder="Carrera" value="#{{ forloop.counter }} - Hora de la Carrera {{ carr.hora|time:'h:i A' }}" disabled>
+								{{ form.apue.id_carr.errors }}
+							</div>
+		
+							<!--Jornada-->
+							<div class="input-group form-group formField d-none">
+								<div class="input-group-prepend">
+									<span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+								</div>
+								<input type="text" class="form-control" placeholder="Carrera" name ="apue-id_jorh" value="{{ carr.id_jh.id }}">
+								{{ form.apue.id_jorh.errors }}
+							</div>
+		
+							<!--cuota-->
+							<div class="input-group form-group cuota formField d-none">
+								<div class="input-group-prepend">
+									<span class="input-group-text"><i class="fas fa-cash-register"></i></span>
+								</div>
+								<input type="text" class="form-control" placeholder="Cuota" name ="apue-cuota" value="0" id="cuota">
+								{{ form.apue.cuota.errors }}
+							</div>
+						</fieldset>
+
+						<!--Detalles Apuesta1-->
+						<fieldset class="formFieldset col-6">
+							<!--caballo-->
+							<div class="input-group form-group required id_cab formField">
+								<div class="input-group-prepend">
+									<span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+								</div>
+								<select class="form-control" name="detaAp{{ forloop.counter }}-id_cab" id="deta1{{forloop.counter}}">
+									<option value="">Seleccione el Caballo #1</option>
+										{% for det in detalle %}
+											{% if det.id_carr.id == carr.id and det.id_caba.estatus == 'a' %}
+												<option value="{{ det.id_caba.id }}">{{ det.id_caba }} - {{ det.id_jock }}</option>
+											{% endif %}
+										{% endfor %}
+								</select>
+								{{ form.detaAp.id_cab.errors }}
+							</div>
+                            <!--caballo-->
+							<div class="input-group form-group required id_cab formField ">
+								<div class="input-group-prepend">
+									<span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+								</div>
+								<select class="form-control" name="detaAp2{{ forloop.counter }}-id_cab" id="deta2{{forloop.counter}}">
+								    <option value="">Seleccione el Caballo #2</option>
+										{% for det in detalle %}
+											{% if det.id_carr.id == carr.id and det.id_caba.estatus == 'a' %}
+												<option value="{{ det.id_caba.id }}">{{ det.id_caba }} - {{ det.id_jock }}</option>
+											{% endif %}
+										{% endfor %}
+								</select>
+								{{ form.detaAp.id_cab.errors }}
+						</fieldset>
+
+                        <!--Detalles Apuesta2-->
+						<fieldset class="formFieldset detaAp2{{ forloop.counter }} col-6">
+						</fieldset>
+						</div>
+                        </br>
+					{% endfor %}
+					</div>
+					</br>
+					</br>
+					<!---Transaccion--->
+					<div class="input-group formField required form-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text"><i class="fas fa-money-check-alt"></i></span>
+							</div>
+							<input type="text" class="form-control" placeholder="Pote actual" name ="trans-monto" step="any" value="Pote Actual: {{cuota}} HRC" disabled>                                
+					</div>
+
+						<div class="input-group formField required form-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text"><i class="fas fa-money-check-alt"></i></span>
+							</div>
+							<input type="text" class="form-control" placeholder="Monto en HRC a Apostar" name ="trans-monto" step="any" id="monto_visible" disabled>                                
+							{{ form.trans.monto.errors }}
+						</div>
+					<fieldset class="formFieldset trans">
+						<!--Monto -->
+						<div class="input-group formField required form-group d-none">
+							<div class="input-group-prepend">
+								<span class="input-group-text"><i class="fas fa-money-check-alt"></i></span>
+							</div>
+							<input type="text" class="form-control" placeholder="Monto en HRC a Apostar" name ="trans-monto" step="any" id="monto">                                
+							{{ form.trans.monto.errors }}
+						</div>
+		
+						<!--Usuario-->
+						<div class="input-group formField usua form-group d-none">
+							<div class="input-group-prepend">
+								<span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+							</div>
+							<input type="number" class="form-control" placeholder="Usuario" name ="trans-usua" value="{{ user.id }}" >
+							{{ form.trans.usua.errors }}
+						</div>
+		
+						<!--Descripcion-->
+						<div class="input-group formField form-group d-none">
+							<div class="input-group-prepend">
+								<span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+							</div>
+							<input type="text" class="form-control" placeholder="Descripcion" name ="trans-descripcion" value="3">
+							{{ form.trans.descripcion.errors }}
+						</div>
+		
+						<!--Tipo-->
+						<div class="input-group formField form-group d-none">
+							<div class="input-group-prepend">
+								<span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+							</div>
+							<input type="text" class="form-control" placeholder="Tipo de Transaccion" name ="trans-tipo" value="d">
+							{{ form.trans.tipo.errors }}
+						</div>
+		
+						<!--Estado-->
+						<div class="input-group formField form-group d-none">
+								<div class="input-group-prepend">
+									<span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+								</div>
+								<input type="text" class="form-control" placeholder="Tipo de Transaccion" name ="trans-estado" value="c">
+								{{ form.trans.estado.errors }}
+							</div>
+					</fieldset>
+
+					<div class="row">
+						<a href="{% url 'apostar' '-' %}" class="btn btn-danger col-4"><i class="fa fa-arrow-circle-left"> Volver</i></a>
+						<button type="submit" class="btn btn-success col-4"><i class="fa fa-check-circle" > Apostar</i></button>
+					</div>
+				</form>
+		</div> 
+	<!--aqui tan-->	
+	</div>
+</div> 		
+{% endblock  %}
+
+{% block scripts %}
+<script>
+var mult_c1 = [
+	{% for m in m1 %}
+	"{{m}}",
+	{% endfor %}	
+]
+
+var mult_c2 = [
+	{% for m in m2 %}
+	"{{m}}",
+	{% endfor %}	
+]
+
+var mult_c3 = [
+	{% for m in m3 %}
+	"{{m}}",
+	{% endfor %}	
+]
+
+var mult_c4 = [
+	{% for m in m4 %}
+	"{{m}}",
+	{% endfor %}	
+]
+
+var mult_c5 = [
+	{% for m in m5 %}
+	"{{m}}",
+	{% endfor %}	
+]
+
+var mult_c6 = [
+	{% for m in m6 %}
+	"{{m}}",
+	{% endfor %}	
+]
+
+var mult_c7 = [
+	{% for m in m7 %}
+	"{{m}}",
+	{% endfor %}	
+]
+
+function actualizarCuota(){
+	var p_c11 = $("#deta11 option:selected").index() - 1;
+	var p_c12 = $("#deta12 option:selected").index() - 1;
+	var p_c13 = $("#deta13 option:selected").index() - 1;
+	var p_c14 = $("#deta14 option:selected").index() - 1;
+	var p_c15 = $("#deta15 option:selected").index() - 1;
+	var p_c16 = $("#deta16 option:selected").index() - 1;
+	var p_c17 = $("#deta17 option:selected").index() - 1;
+
+	var p_c21 = $("#deta21 option:selected").index() - 1;
+	var p_c22 = $("#deta22 option:selected").index() - 1;
+	var p_c23 = $("#deta23 option:selected").index() - 1;
+	var p_c24 = $("#deta24 option:selected").index() - 1;
+	var p_c25 = $("#deta25 option:selected").index() - 1;
+	var p_c26 = $("#deta26 option:selected").index() - 1;
+	var p_c27 = $("#deta27 option:selected").index() - 1;
+
+	var m11 = 0;
+	var m12 = 0;
+	var m13 = 0;
+	var m14 = 0;
+	var m15 = 0;
+	var m16 = 0;
+	var m17 = 0;	
+
+	var m21 = 0;
+	var m22 = 0;
+	var m23 = 0;
+	var m24 = 0;
+	var m25 = 0;
+	var m26 = 0;
+	var m27 = 0;	
+
+	if (p_c11 != -1){
+		var m11 = mult_c1[p_c11];
+	}
+	if (p_c12 != -1){
+		var m12 = mult_c2[p_c12];
+	}
+	if (p_c13 != -1){
+		var m13 = mult_c3[p_c13];
+	}
+	if (p_c14 != -1){
+		var m14 = mult_c4[p_c14];
+	}
+	if (p_c15 != -1){
+		var m15 = mult_c5[p_c15];
+	}
+	if (p_c16 != -1){
+		var m16 = mult_c6[p_c16];
+	}
+	if (p_c17 != -1){
+		var m17 = mult_c7[p_c17];
+	}
+	if (p_c21 != -1){
+		var m21 = mult_c1[p_c21];
+	}
+	if (p_c22 != -1){
+		var m22 = mult_c2[p_c22];
+	}
+	if (p_c23 != -1){
+		var m23 = mult_c3[p_c23];
+	}
+	if (p_c24 != -1){
+		var m24 = mult_c4[p_c24];
+	}
+	if (p_c25 != -1){
+		var m25 = mult_c5[p_c25];
+	}
+	if (p_c26 != -1){
+		var m26 = mult_c6[p_c26];
+	}
+	if (p_c27 != -1){
+		var m27 = mult_c7[p_c27];
+	}	
+	var montonvo = parseFloat(m11) + parseFloat(m12) + parseFloat(m13) + parseFloat(m14) + parseFloat(m15)
+	+ parseFloat(m16) + parseFloat(m17) + parseFloat(m21) + parseFloat(m22) + parseFloat(m23) + parseFloat(m24)
+	+ parseFloat(m25) + parseFloat(m26) + parseFloat(m27);
+	$('#monto').val("")
+	$('#monto').val(montonvo)
+	$('#monto_visible').val("")
+	$('#monto_visible').val(montonvo)
+}
+
+$('#deta11').change(function() {
+	actualizarCuota();
+});
+
+$('#deta12').change(function() {
+	actualizarCuota();
+});
+
+$('#deta13').change(function() {
+	actualizarCuota();
+});
+
+$('#deta14').change(function() {
+	actualizarCuota();
+});
+
+$('#deta15').change(function() {
+	actualizarCuota();
+});
+
+$('#deta16').change(function() {
+	actualizarCuota();
+});
+
+$('#deta17').change(function() {
+	actualizarCuota();
+});
+
+$('#deta21').change(function() {
+	actualizarCuota();
+});
+
+$('#deta22').change(function() {
+	actualizarCuota();
+});
+
+$('#deta23').change(function() {
+	actualizarCuota();
+});
+
+$('#deta24').change(function() {
+	actualizarCuota();
+});
+
+$('#deta25').change(function() {
+	actualizarCuota();
+});
+
+$('#deta26').change(function() {
+	actualizarCuota();
+});
+
+$('#deta27').change(function() {
+	actualizarCuota();
+});
+</script>
+{% endblock %}

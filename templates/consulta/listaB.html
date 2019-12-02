@@ -1,0 +1,84 @@
+{% extends 'inicio/consulta.html' %}
+{% load static %}
+
+{% block consulta %}
+    {% if user.type_u.codigo == 'user' %}
+        <div class="section d-flex">
+            <div class="justify-content-center container" style="height: 90%;width: 100%">
+                
+                <div class="d-flex container2 text-center justify-content-center">
+                    <ul class="nav nav-tabs " role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link" id="Titul">Gestión de Transacciones</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'saldo' %}">Saldo</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'trans' '-' %}" >Transacciones</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'recar' %}">Recargar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'retir' %}">Retirar</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active card-body" role="tabpanel">
+                            <h3 class="mb-md-3 text-center text-white align-center">Lista de Bancos</h3>
+                            </br>
+                            <div class="col-md-10 p-3 m-auto" >
+                                {% if object_list %}
+                            <table id="tabla-bancos" class="table table-responsive text-center mb-0 tbl w-100 table-hover">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Banco</th> 
+                                    <th>Nro Cta</th>
+                                    <th>Tipo</th>
+                                    <th>Acción</th>                                           
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for banco in object_list %}
+                                    <tr>
+                                        <td>{{ banco.get_bco_display }}</td>
+                                        <td>{{ banco.numero }}</td>
+                                        <td>{{ banco.get_tipo_display }}</td>
+                                        <td>
+                                        <a class="btn btn-warning w-30" href="{% url 'retir' %}"><i class="fas fa-arrow-circle-down fa-align-center"></i></a> <a class="btn btn-warning w-30" href="{% url 'modiB' banco.id %}"><i class="fas fa-edit"></i></a>
+                                    </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                            </table>
+                                    </br>
+                                {% endif %}
+                                    <a class="btn suce btn-warning w-50" href="{% url 'regisB' %}">Registrar Banco</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    {% else %}
+        <div class="d-flex justify-content-center h-100">
+            <div class="card">
+                <div class="card-header text-center border-0">
+                    <img class="img-fluid w-50" src="{% static 'img/iniciar/Error.png'%}">
+                </div>
+                <div class="card-body">
+                    <h2 class="text-center" style="color: white">ERROR EN LA URL</h2>
+                </div>
+                <div class="card-footer text-center border-0">
+                    <a class="iniciar btn btn-warning w-50" href="{% url 'inicio' %}" style="color: black">Volver al Inicio</a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript" src="{% static 'js/tablas/listaB.js'%}"></script>
+{% endblock %}

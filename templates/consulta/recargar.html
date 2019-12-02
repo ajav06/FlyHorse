@@ -1,0 +1,168 @@
+{% extends 'inicio/consulta.html' %}
+{% load static %}
+
+{% block consulta %}
+    {% if user.type_u.codigo == 'user' %}
+        <div class="section d-flex">
+            <div class="justify-content-center container" style="height: 90%;width: 100%"> 
+                <div class="d-flex container2 text-center justify-content-center">
+                    <ul class="nav nav-tabs " role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link" id="Titul">Gestión de Transacciones</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'saldo' %}">Saldo</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'trans' '-' %}" >Transacciones</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'recar' %}">Recargar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'retir' %}">Retirar</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active card-body" role="tabpanel">
+                            <h3 class="mb-md-3 text-center text-white align-center">Registar Recarga de Saldo</h3>
+                            </br>                            
+                            <h4 class="mb-md-3 text-center text-white align-center">Bancos Nacionales:</br></h3>
+                            <div class="card-deck" >
+                                <div class="card">
+                                    <div class="card-body bg-light">
+                                        <h4 class="card-title">BBVA Provincial</h4>
+                                        <p class="card-text">Nro Cta: 0108-XXXX-XX-XXXXXXXXXX</br>
+                                        Tipo de Cta: Corriente</br>
+                                        Nombre: XXXX XXXX</br>
+                                        J - XXXX XXXX</br>
+                                        Corrreo: XXXX@gmail.com</br></p>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-body bg-light">
+                                        <h4 class="card-title">Mercantil</h4>
+                                        <p class="card-text">Nro Cta: 0105-XXXX-XX-XXXXXXXXXX</br>
+                                        Tipo de Cta: Corriente</br>
+                                        Nombre: XXXX XXXX</br>
+                                        J - XXXX XXXX</br>
+                                        Corrreo: XXXX@gmail.com</br></p>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-body bg-light">
+                                        <h4 class="card-title">B.O.D.</h4>
+                                        <p class="card-text">Nro Cta: 0116-XXXX-XX-XXXXXXXXXX</br>
+                                        Tipo de Cta: Corriente</br>
+                                        Nombre: XXXX XXXX</br>
+                                        J - XXXX XXXX</br>
+                                        Corrreo: XXXX@gmail.com</br></p>
+                                    </div>
+                                </div>
+                            </div>
+                                <br/>                            
+                                <h4 class="mb-md-3 text-center text-white align-center">Bancos Internacionales:</br></h3>
+                            <div class="card-deck" >
+                                <div class="card">
+                                    <div class="card-body bg-light">
+                                        <h4 class="card-title">Bank of America</h4>
+                                        <p class="card-text">E-Mail: xxxxxxxx@flyhorse.com</br>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-body bg-light">
+                                        <h4 class="card-title">Wells Fargo</h4>
+                                        <p class="card-text">E-Mail: xxxxxxxx@flyhorse.com</br>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-body bg-light">
+                                        <h4 class="card-title">Zelle</h4>
+                                        <p class="card-text">E-Mail: xxxxxxxx@flyhorse.com</br>
+                                    </div>
+                                </div>
+                            </div>
+                            </br>
+                            </br>
+                            <form method="POST">
+                            {% csrf_token %}<!-- el que sigue es un control oculto para hacer trampa con el form -->
+                                
+                                <div class="input-group form-group d-none" >
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-place-of-worship"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control" value="{{ user.id }}" name="usua">
+                                </div>
+
+                                <div class="input-group form-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-university"></i></span>
+                                    </div>
+                                    {{ form.bco }}
+                                    {{ form.bco.errors }}
+                                </div>
+
+                                <div class="input-group form-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-receipt"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Número de Referencia" name="ref">
+                                    {{ form.ref.errors }}
+                                </div>
+
+                                <div class="input-group form-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-money-bill-alt"></i></span>
+                                    </div>
+                                    <input type="number" step="any" class="form-control" placeholder="Monto a Recargar" name="monto">
+                                    {{ form.monto.errors }}
+                                </div>
+
+                                <div class="input-group form-group d-none">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control" value="c" name="tipo">
+                                </div>
+
+                                <div class="input-group form-group d-none" >
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-place-of-worship"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control" value="1" name="descripcion">
+                                </div>
+
+                                <div class="form-group">
+                                    <button class="btn btn-warning w-100" type="submit">Enviar Datos</button>
+                                </div>
+                        </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    {% else %}
+        <div class="d-flex justify-content-center h-100">
+            <div class="card">
+                <div class="card-header text-center border-0">
+                    <img class="img-fluid w-50" src="{% static 'img/iniciar/Error.png'%}">
+                </div>
+                <div class="card-body">
+                    <h2 class="text-center" style="color: white">ERROR EN LA URL</h2>
+                </div>
+                <div class="card-footer text-center border-0">
+                    <a class="iniciar btn btn-warning w-50" href="{% url 'inicio' %}" style="color: black">Volver al Inicio</a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $( document ).ready(function() {
+            $("#precioMoneda").modal('show')
+        });   
+    </script>
+{% endblock %}

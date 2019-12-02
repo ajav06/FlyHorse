@@ -1,0 +1,131 @@
+{% extends 'inicio/gestionar.html' %}
+{% load static %}
+
+{% block gestionar %}
+    {% if user.type_u.codigo == 'admin' %}
+    <div class="section d-flex">
+        <div class="justify-content-center container" style="height: 90%;width: 100%">  
+            <div class="d-flex container2 text-center justify-content-center">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link" id="Titul">Gestionar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'histMv' '-' %}">Moneda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'listaU' '-' %}">Usuarios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listaH' '-' %}">Hipódromos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listaCb' '-' %}">Caballos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listaJk' '-' %}">Jockeys</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listaE' '-' %}">Entrenadores</a>
+                    </li>
+                </ul>
+                
+                <div class="tab-content">
+                    <div class="tab-pane card-body active" role="tabpanel">
+                        <h3 class="mb-md-3 text-center text-white align-center">Gestionar Usuarios</h3>
+                        <div class="col-md-10 p-3 m-auto" >
+                            {% if object_list %}
+                            <div class="input-group form-group">
+                            <input type="text" class="form-control w-25" id="filtro" placeholder="Buscar...">
+                            <div class="input-group form-group w-25"></div>
+                            <select id="filtrarcbestatus" class="form-control w-25" name="filtrardescripcion">
+                                <option value="">Todos</option>
+                                <option value="Activo" selected>Activos</option>
+                                <option value="Suspendido">Suspendidos</option>
+                                </select>
+                            </div>
+                            <select id="filtrartipou" class="form-control w-100" name="filtrardescripcion">
+                                <option value="">Todos</option>
+                                <option value="General">Administrador General</option>
+                                <option value="Carreras">Administrador de Carreras</option>
+                                <option value="Transacciones">Administrador de Transacciones</option>
+                                <option value="Usuario">Usuario Apostador</option>
+                            </select>
+                            <br>
+                                <table class="table table-responsive text-center mb-0 tbl w-200 table-hover" id="tabla">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>Nombre Usuario</th>
+                                            <th>Correo Electrónico</th>
+                                            <th>Ult. Fecha ingreso</th>
+                                            <th>Tipo de Usuario</th>
+                                            <th>Estatus</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for user in object_list %}
+                                            <tr>
+                                                <td>{{ user.username }}</td>
+                                                <td>{{ user.email }}</td>
+                                                <td>{{ user.last_login }}</td>
+                                                {% if user.type_u_id == 'admin' %}
+                                                <td><a class="btn btn-light w-100"><i class="fa fa-user-tie"></a><div class="d-none">Administrador General</div></td>
+                                                {% elif user.type_u_id == 'user' %}
+                                                <td><a class="btn btn-light w-100"><i class="fa fa-user"></a><div class="d-none">Usuario Apostador</div></td>
+                                                {% elif user.type_u_id == 'encar' %}
+                                                <td><a class="btn btn-light w-100"><i class="fa fa-flag-checkered "><div class="d-none">Administrador de Carreras</div></a></td>
+                                                {% elif user.type_u_id == 'trans' %}
+                                                <td><a class="btn btn-light w-100"><i class="fa fa-money-check-alt"><div class="d-none">Administrador de Transacciones</div></a></td>
+                                                {% endif %}
+                                                {% if user.is_active %}
+                                                <td><a class="btn btn-success w-100"><i class="fa fa-check-square"><div class="d-none">Activo</div></a></td>
+                                                {% else %}
+                                                <td><a class="btn btn-danger w-100"><i class="fa fa-times"><div class="d-none">Suspendido</div></a></td>
+                                                {% endif %}
+                                                <td>
+                                                    <a class="btn btn-warning w-100" href="{% url 'actuNu' user.id %}">Editar <i class="fas fa-edit"></i></a>
+                                                    <a class="btn btn-danger w-100" href="{% url 'susp' user.id %}">Suspender <i class="fas fa-user-minus"></i></a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                                {% else %}
+                                </br>
+                                <h3 class="mb-md-3 text-center text-white align-center">Primero Registre un Usuario</h3>
+                                <a class="btn btn-warning w-100" href="{% url 'logout' %}">Incluir</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>     
+        </div>
+    </div>
+
+    {% else %}
+        <div class="d-flex justify-content-center h-100">
+            <div class="card">
+                <div class="card-header text-center border-0">
+                    <img class="img-fluid w-50" src="{% static 'img/iniciar/Error.png'%}">
+                </div>
+                <div class="card-body">
+                    <h2 class="text-center" style="color: white">ERROR EN LA URL</h2>
+                </div>
+                <div class="card-footer text-center border-0">
+                    <a class="iniciar btn btn-warning w-50" href="{% url 'inicio' %}" style="color: black">Volver al Inicio</a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript" src="{% static 'js/tablas/listadoUsuarios.js'%}"></script>
+    <script>
+        $( document ).ready(function() {
+            $("#opExitosa").modal('{{ show }}')
+        });   
+    </script>
+{% endblock %}

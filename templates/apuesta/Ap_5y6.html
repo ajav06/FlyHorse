@@ -1,0 +1,284 @@
+{% extends "apuesta/selecTipoApuesta.html" %}
+{% load static %}
+
+{% block carreras_jornada %}
+		<h3 class="mb-md-3 text-center text-white align-center">Horarios de las Carreras</h3>
+        <h5 class="mb-md-3 text-center text-white align-center">Seleccione la carrera a apostar</h5>
+        <h5 class="mb-md-3 text-center text-white align-center">Tipo de apuesta: {{tipoap.descripcion}}</h5>
+		<div class="col-md-10 p-3 m-auto" >
+			{% comment %} <table class="table table-responsive text-center mb-0 tbl w-100 table-hover">
+				{% for carr in carreras  %}
+					<thead class="thead-dark">
+						<tr>
+							<th>{{carr.hora|time:'h:i A'}} del {{carr.id_jh.fecha}}</th>
+							<th>Nro Caballo</th>
+							<th>Nombre Caballo</th>
+							<th>Nombre Jockey</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for c in detalle  %}
+							{% if c.id_carr.id == carr.id  %}
+								<tr>
+									<td>{{c}}</td>
+									<td>{{c.numero}}</td>
+									<td>{{c.id_caba}}</td>
+									<td>{{c.id_jock}}</td>
+								</tr>
+							{% endif %}
+						{% endfor %}
+					</tbody>
+				{% endfor %}
+			</table> {% endcomment %}
+			<form method="POST">
+				{% csrf_token %}
+				{% if form.errors %}
+					{{form.errors}}
+				{% endif %}
+				<div style="overflow-y: auto; height: 400px; overflow-x: hidden;">
+					
+					{% for carr in carreras %}
+						<div class="row">
+						<!--Apuesta--> 
+						<fieldset class="formFieldset apue col-6">
+							<!--tipo apuesta-->
+							<div class="input-group form-group tApuesta formField d-none">
+								<div class="input-group-prepend">
+									<span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+								</div>
+								<input type="number" class="form-control" placeholder="Tipo de apuesta" name="apue-tApuesta" value="{{ tipoap.id }}">
+								{{ form.apue.tApuesta.errors }}
+							</div>
+							
+							{% if forloop.counter == 1 %}
+							<!--cuota-->
+							<div class="input-group form-group cuota formField d-none">
+								<div class="input-group-prepend">
+									<span class="input-group-text"><i class="fas fa-cash-register"></i></span>
+								</div>
+								<input type="text" class="form-control" placeholder="Cuota" name ="apue-cuota" value="4" id="cuota">
+								{{ form.apue.cuota.errors }}
+							</div>
+							{% endif %}
+
+							<!--carrera-->
+							<div class="input-group form-group formField ">
+								<div class="input-group-prepend">
+									<span class="input-group-text"><i class="fa fa-flag-checkered" aria-hidden="true"></i></span>
+								</div>
+								<input type="text" class="form-control" placeholder="Carrera" value="#{{ forloop.counter }} - Hora de la Carrera {{ carr.hora|time:'h:i A' }}" disabled>
+								{{ form.apue.id_carr.errors }}
+							</div>
+		
+							<!--Jornada-->
+							<div class="input-group form-group formField d-none">
+								<div class="input-group-prepend">
+									<span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+								</div>
+								<input type="text" class="form-control" placeholder="Carrera" name ="apue-id_jorh" value="{{ carr.id_jh.id }}">
+								{{ form.apue.id_jorh.errors }}
+							</div>
+						</fieldset>
+
+						<!--Detalles Apuesta-->
+						<fieldset class="formFieldset detaAp{{ forloop.counter }} col-6">
+							<!--caballo-->
+							<div class="input-group form-group required id_cab formField">
+								<div class="input-group-prepend">
+									<span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+								</div>
+									<select class="form-control" name="detaAp{{ forloop.counter }}-id_cab" id="deta{{ forloop.counter }}">
+										<option value="">Seleccione el Caballo </option>
+											{% for det in detalle %}
+												{% if det.id_carr.id == carr.id and det.id_caba.estatus == 'a' %}
+													<option value="{{ det.id_caba.id }}">{{ det.id_caba }} - {{ det.id_jock }}</option>
+												{% endif %}
+											{% endfor %}
+									</select>
+									{{ form.detaAp.id_cab.errors }}
+							</div>
+						</fieldset>
+						</div>
+						</br>
+					{% endfor %}
+					</div>
+					</br>
+					</br>
+					<!---Transaccion--->
+
+					<!--cuota visible-->
+					<div class="input-group form-group cuota formField d-flex ">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="fas fa-cash-register"></i></span>
+						</div>
+						<input type="text" class="form-control" placeholder="Cuota" value="8" id="cuota_visible" disabled>
+						{{ form.apue.cuota.errors }}
+					</div>
+
+
+					<fieldset class="formFieldset trans">
+						<!--Monto -->
+						<div class="input-group formField required form-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text"><i class="fas fa-money-check-alt"></i></span>
+							</div>
+							<input type="number" class="form-control" placeholder="Monto en HRC a Apostar" name ="trans-monto" step="any">                                
+							{{ form.trans.monto.errors }}
+						</div>
+		
+						<!--Usuario-->
+						<div class="input-group formField usua form-group d-none">
+							<div class="input-group-prepend">
+								<span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+							</div>
+							<input type="number" class="form-control" placeholder="Usuario" name ="trans-usua" value="{{ user.id }}" >
+							{{ form.trans.usua.errors }}
+						</div>
+		
+						<!--Descripcion-->
+						<div class="input-group formField form-group d-none">
+							<div class="input-group-prepend">
+								<span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+							</div>
+							<input type="text" class="form-control" placeholder="Descripcion" name ="trans-descripcion" value="3">
+							{{ form.trans.descripcion.errors }}
+						</div>
+		
+						<!--Tipo-->
+						<div class="input-group formField form-group d-none">
+							<div class="input-group-prepend">
+								<span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+							</div>
+							<input type="text" class="form-control" placeholder="Tipo de Transaccion" name ="trans-tipo" value="d">
+							{{ form.trans.tipo.errors }}
+						</div>
+		
+						<!--Estado-->
+						<div class="input-group formField form-group d-none">
+								<div class="input-group-prepend">
+									<span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+								</div>
+								<input type="text" class="form-control" placeholder="Tipo de Transaccion" name ="trans-estado" value="c">
+								{{ form.trans.estado.errors }}
+							</div>
+					</fieldset>
+
+					<h5>Por cada 100 HRC apostados obtendrás <span id="ganancia"></span> HRC</h5>
+					<div class="row">
+						<a href="{% url 'apostar' '-' %}" class="btn btn-danger col-4"><i class="fa fa-arrow-circle-left"> Volver</i></a>
+						<button type="submit" class="btn btn-success col-4"><i class="fa fa-check-circle" > Apostar</i></button>
+					</div>
+				</form>
+		</div> 
+	<!--aqui tan-->	
+	</div>
+</div> 		
+{% endblock  %}
+
+{% block scripts %}
+<script>
+var mult_c1 = [
+	{% for m in m1 %}
+	"{{m}}",
+	{% endfor %}	
+]
+
+var mult_c2 = [
+	{% for m in m2 %}
+	"{{m}}",
+	{% endfor %}	
+]
+
+var mult_c3 = [
+	{% for m in m3 %}
+	"{{m}}",
+	{% endfor %}	
+]
+
+var mult_c4 = [
+	{% for m in m4 %}
+	"{{m}}",
+	{% endfor %}	
+]
+
+var mult_c5 = [
+	{% for m in m5 %}
+	"{{m}}",
+	{% endfor %}	
+]
+
+var mult_c6 = [
+	{% for m in m6 %}
+	"{{m}}",
+	{% endfor %}	
+]
+
+function actualizarCuota(){
+	var p_c1 = $("#deta1 option:selected").index() - 1;
+	var p_c2 = $("#deta2 option:selected").index() - 1;
+	var p_c3 = $("#deta3 option:selected").index() - 1;
+	var p_c4 = $("#deta4 option:selected").index() - 1;
+	var p_c5 = $("#deta5 option:selected").index() - 1;
+	var p_c6 = $("#deta6 option:selected").index() - 1;
+	var m1 = 1;
+	var m2 = 1;
+	var m3 = 1;
+	var m4 = 1;
+	var m5 = 1;
+	var m6 = 1;
+	if (p_c1 != -1){
+		var m1 = mult_c1[p_c1]
+	}
+	if (p_c2 != -1){
+		var m2 = mult_c2[p_c2]
+	}
+	if (p_c3 != -1){
+		var m3 = mult_c3[p_c3]
+	}
+	if (p_c4 != -1){
+		var m4 = mult_c4[p_c4]
+	}
+	if (p_c5 != -1){
+		var m5 = mult_c5[p_c5]
+	}
+	if (p_c6 != -1){
+		var m6 = mult_c6[p_c6]
+	}
+	var cuotanva = 8 * m1 * m2 * m3 * m4 * m5 * m6 
+	$('#cuota').val("")
+	$('#cuota').val(cuotanva)
+	$('#cuota_visible').val("")
+	$('#cuota_visible').val(cuotanva)
+	document.getElementById('ganancia').innerHTML = parseFloat(cuotanva*100);
+}
+
+$('#deta1').change(function() {
+	actualizarCuota();
+});
+
+$('#deta2').change(function() {
+	actualizarCuota();
+});
+
+$('#deta3').change(function() {
+	actualizarCuota();
+});
+
+$('#deta4').change(function() {
+	actualizarCuota();
+});
+
+$('#deta5').change(function() {
+	actualizarCuota();
+});
+
+$('#deta6').change(function() {
+	actualizarCuota();
+});
+
+$( document ).ready(function() {
+	$('#ganancia').html(800);
+});   
+
+</script>
+{% endblock %}

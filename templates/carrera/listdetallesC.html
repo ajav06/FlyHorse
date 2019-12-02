@@ -1,0 +1,106 @@
+{% extends 'inicio/gestionar.html' %}
+{% load static %}
+
+{% block gestionar %}
+    {% if user.type_u.codigo == 'encar' %}
+        <div class="section d-flex">
+            <div class="justify-content-center container" style="height: 90%;width: 100%"> 
+
+                <div class="d-flex container2 text-center justify-content-center">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link" id="Titul">Gestionar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'listaJh' '-' %}">Jornadas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link  active" href="{% url 'listaCr' %}">Carreras</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active card-body" role="tabpanel">
+                            <h3 class="mb-md-3 text-center text-white align-center">Detalles de la carrera</h3>
+                            <div class="col-md-10 p-3 m-auto">
+                                <table id="tabla" class="table table-responsive text-center mb-0 tbl w-100 table-hover">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>Número en Carrera</th>
+                                            <th>Caballo</th>
+                                            <th>Jockey</th>
+                                            <th>Posicion</th>
+                                            <th>Estado</th>
+                                            <th>Opciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% csrf_token %}
+                                    {% if competidores %}
+                                    {% for  com in competidores  %}
+                                        <tr>
+                                            <td>{{com.numero}}</td>
+                                            <td>{{com.id_caba}}</td>
+                                            <td>{{com.id_jock}}</td>
+                                            {% if com.posicion == 500 %}
+                                            <td>No finalizó</td>
+                                            {% else %}
+                                            <td>{{com.posicion}}</td>
+                                            {% endif %}
+                                            <td>{{com.get_estatus_display}}</td>
+                                            <td>
+                                                {% if com.estatus == 'a' %}
+                                                    <a class="btn btn-warning w-100" href="{% url 'actuDetall' com.id '-' %}">Editar</a>
+                                                    <a class="btn btn-danger w-100" href="{% url 'elimDetall' com.id '-' %}">Retirar</a>
+                                                {% comment 'por si acaso' %}
+                                                 {% elif carrera.estatus == 'r' %}
+                                                    <a class="btn btn-warning w-100" href="{% url 'RegResultCr' com.id '-' %}">Posición</a>  
+                                                
+                                                {% endcomment %}
+                                               {% elif com.estatus == 'r' %}
+                                                    <p class="text-center"> Ya no puede realizar
+                                                    </br> ninguna acción </p>
+                                                {% endif %}   
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    {% endif %}
+                                    </tbody>
+                                </table>
+                            </div>
+                                {% if carrera.cant_caballos > competidores|length %}
+                                    <div class="row card-footer text-center border-0">
+                                        <a href="{% url 'RegDetallCr' carrera.pk '-' %}" class="col-5 btn btn-warning w-50">Agregar Competidor</a>
+                                        <a href="{% url 'listaCr' %}" class="col-5 btn btn-warning w-50">Volver Atras</a>
+                                    </div>
+                                {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="d-flex justify-content-center h-100">
+            <div class="card">
+                <div class="card-header text-center border-0">
+                    <img class="img-fluid w-50" src="{% static 'img/iniciar/Error.png'%}">
+                </div>
+                <div class="card-body">
+                    <h2 class="text-center" style="color: white">ERROR EN LA URL</h2>
+                </div>
+                <div class="card-footer text-center border-0">
+                    <a class="iniciar btn btn-warning w-50" href="{% url 'inicio' %}" style="color: black">Volver al Inicio</a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block scripts %}
+
+    <script type="text/javascript" src="{% static 'js/tablas/tablaSencilla.js'%}"></script>
+    <script>
+        $( document ).ready(function() {
+            $("#opExitosa").modal('{{ show }}')
+        });   
+    </script>
+{% endblock %}

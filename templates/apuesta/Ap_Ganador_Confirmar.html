@@ -1,0 +1,167 @@
+{% extends "base/inicio.html" %}
+{% load static %}
+
+{% block gestionar %}
+    {% if user.type_u.codigo == 'user' %}
+        <div class="section d-flex">
+            <div class="justify-content-center container" style="height: 90%;width: 100%"> 
+                <div class="d-flex container2 text-center justify-content-center">
+                    <div class="tab-content3">
+                        <div class="tab-pane active card-body" role="tabpanel">
+                            <h3 class="mb-md-3 text-center text-white align-center">Crear Apuesta</h3>
+                            <div class="col-md-10 p-3 m-auto">
+                            </div>
+                            <form method="POST">
+                            {% csrf_token %}
+                                <!--carrera-->
+                                <div class="input-group form-group apue formField">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-flag-checkered" aria-hidden="true"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Carrera" value="Hora de la Carrera {{ carr.hora|time:'h:i A' }}" disabled>
+                                    {{ form.apue.id_carr.errors }}
+                                </div>
+
+                            <fieldset class="formFieldset apue">
+                                <!--tipo apuesta-->
+                                <div class="input-group form-group tApuesta formField d-none">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+                                    </div>
+                                    <input type="number" class="form-control" placeholder="Tipo de apuesta" name="apue-tApuesta" value="{{ tp }}">
+                                    {{ form.apue.tApuesta.errors }}
+                                </div>
+                            
+                                <!--carrera-->
+                                <div class="input-group form-group apue formField d-none">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Carrera" name ="apue-id_carr" value="{{ carr.id }}">
+                                    {{ form.apue.id_carr.errors }}
+                                </div>
+
+                                <!--cuotaV-->
+                                <div class="input-group form-group cuota formField">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-cash-register"></i></span>
+                                    </div>
+                                    <input type="text" step="0.01" class="form-control" placeholder="Cuota" value="{{ cuota }}" disabled>
+                                    {{ form.apue.cuota.errors }}
+                                </div>
+
+                                <!--cuota-->
+                                <div class="input-group form-group cuota formField d-none">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+                                    </div>
+                                    <input type="text" step="0.01" class="form-control" placeholder="Cuota" name ="apue-cuota" value="{{ cuota }}">
+                                    {{ form.apue.cuota.errors }}
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="formFieldset detaAp ">
+                                <!--caballo-->
+                                <div class="input-group form-group required id_cab formField d-none">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Caballo" name="detaAp-id_cab" value="{{ caballo.id }}">
+                                    {{ form.id_cab.errors }}
+                                </div>
+
+                                <div class="input-group form-group required id_cab formField">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Caballo" value="{{ caballo.nombre }}" disabled>
+                                    {{ form.id_cab.errors }}
+                                </div>
+
+                                <!--Posicion -->
+                                <div class="input-group form-group required posicion formField d-none">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Posición a Apostar" name ="detaAp-posicion" value="1">
+                                    {{ form.detaAp.posicion.errors }}
+                                </div>
+                            </fieldset>
+                            
+                            <fieldset class="formFieldset trans">
+                                <!--Monto -->
+                                <div class="input-group formField required form-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-money-check-alt"></i></span>
+                                    </div>
+                                    <input type="number" class="form-control" placeholder="Monto en HRC a Apostar" name ="trans-monto" step="any">                                
+                                    {{ form.trans.monto.errors }}
+                                </div>
+
+                                <!--Usuario-->
+                                <div class="input-group formField usua form-group d-none">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+                                    </div>
+                                    <input type="number" class="form-control" placeholder="Usuario" name ="trans-usua" value="{{ user.id }}" >
+                                    {{ form.trans.usua.errors }}
+                                </div>
+
+                                <!--Descripcion-->
+                                <div class="input-group formField form-group d-none">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Descripcion" name ="trans-descripcion" value="3">
+                                    {{ form.trans.descripcion.errors }}
+                                </div>
+
+                                <!--Tipo-->
+                                <div class="input-group formField form-group d-none">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Tipo de Transaccion" name ="trans-tipo" value="d">
+                                    {{ form.trans.tipo.errors }}
+                                </div>
+
+                                <!--Estado-->
+                                <div class="input-group formField form-group d-none">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="Tipo de Transaccion" name ="trans-estado" value="c">
+                                        {{ form.trans.estado.errors }}
+                                    </div>
+                            </fieldset>
+                            <h5 class="mb-md-3 text-center text-black align-center"><b>Ganancia estimada:</b> Por cada 100 HRC, obtendrás {{ ge }} HRC</h5>
+                            <div class="row">
+                                <a href="{% url 'Apuesta_Ganador' carr.id_jh.id_hip.id 1 carr.id %}" class="btn btn-danger w-50 col-4"><i class="fa fa-arrow-circle-left"> Volver</i></a>
+                                <button type="submit" class="btn btn-success w-50 col-4"><i class="fa fa-check-circle" > Apostar</i></button>
+                                </div>
+                            </form>          
+                        </div>
+                    </div>
+                </div>       
+            </div>
+        </div>
+    {% else %}
+        <div class="d-flex justify-content-center h-100">
+            <div class="card">
+                <div class="card-header text-center border-0">
+                    <img class="img-fluid w-50" src="{% static 'img/iniciar/Error.png'%}">
+                </div>
+                <div class="card-body">
+                    <h2 class="text-center" style="color: white">ERROR EN LA URL</h2>
+                </div>
+                <div class="card-footer text-center border-0">
+                    <a class="iniciar btn btn-warning w-50" href="{% url 'inicio' %}" style="color: black">Volver al Inicio</a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block principal %}
+
+{% endblock %}

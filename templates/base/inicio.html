@@ -1,0 +1,451 @@
+{% extends 'base/base_generic.html' %}
+{% load static %}
+
+{% block contenet %}
+
+<body id="User">
+
+    <!-- BARRA DE NAVEGACION -->
+    <nav class="navbar navbar-expand-md navbar-light bg-1 py-0" >
+
+        <!-- - BOTON DEL MENU HAMBURGUESA  - -->
+        <a id="logoF" class="navbar-brand"><img class="img-fluid" src="{% static 'img/logo-header.png' %}" style="width: 150px"></a>
+        <div class="row navbar-toggler ml-auto custom-toggler centrar" data-toggle="collapse" data-target="#collapsibleNavbar">
+                <div class="block">
+                    <div class="cta">
+                        <div class="toggle-btn type1"></div>
+                    </div>
+                </div>
+        </div>
+        <div class="navbar-collapse collapse" id="collapsibleNavbar">
+                
+                <ul class="nav nav-pills navbar-nav">
+
+                </ul>
+                <ul class="nav nav-pills navbar-nav ml-auto">
+                    <div class="centrar marg-0"><i>¡Hola, <b>{{ user.username }}</b>! - Último Acceso: El {{ user.last_access|date:"d"}} de {{ user.last_access|date:"M"}} del {{ user.last_access|date:"Y" }} a las {{ user.last_access|time:"h:i A"}}</i></div>
+
+                    {% if user.type_u.codigo == 'user' %}
+                        <li class="nav-item"><a class="nav-link py-1 sald" href="{% url 'saldo' %}">  <i class="fas fa-tachometer-alt"></i> Saldo: {{ user.balance }} HRC</a></li>
+                    {% endif %}
+                    
+                    <li class="nav-item"><a class="nav-link py-1" data-toggle="modal" data-target="#iniciarSesion"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
+                </ul>
+        </div>
+        
+        <!-- - Modal Cerrar Sesion  - -->
+        <div class="modal fade" id="iniciarSesion" tabindex="-1" role="dialog" aria-labelledby="exampleModal3Label" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                
+                <div class="container">
+                    <div class="d-flex justify-content-center">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title center" id="exampleModal3Label"> Cerrar Sesión</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body centrar">
+                                ¿Seguro que quieres salir?
+                            </div>
+                            <div class="modal-footer centrar">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <a href="{% url 'logout' %}" class="btn btn-danger" type="submit"><i class="fas fa-check"></i> Si</a>
+                                    </div>
+                                    <div class="col-6">
+                                        <button type="button" class="btn btn-success" data-dismiss="modal"><i class="fas fa-times"></i> No</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </nav>
+
+        <!-- - Modal Operacion Exitosa - -->
+        <div class="modal fade" id="opExitosa" tabindex="-1" role="dialog" aria-labelledby="exampleModal3Label" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                
+                <div class="container">
+                    <div class="d-flex justify-content-center">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title center" id="exampleModal3Label"> Operación Exitosa</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body centrar">
+                                La operación se ha realizado exitosamente
+                            </div>
+                            <div class="modal-footer centrar">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <button type="button" class="btn btn-success" data-dismiss="modal"><i class="fas fa-check"></i>Ok</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </nav>
+    
+        <!-- - Modal Precio de la Moneda - -->
+        <div class="modal fade" id="precioMoneda" tabindex="-1" role="dialog" aria-labelledby="exampleModal3Label" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                
+                <div class="container">
+                    <div class="d-flex justify-content-center">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title center" id="exampleModal3Label">Precio de la Moneda</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body centrar">
+                                <b>Última actualización:</b> {{moneda_v.fecha}}<br/>
+                                <b>Precio en Bs:</b> {{moneda_v.precio_bs}}<br/>
+                                <b>Precio en Divisas:</b> {{moneda_v.precio_divisa}}<br/>
+                            </div>
+                            <div class="modal-footer centrar">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <button type="button" class="btn btn-success" data-dismiss="modal"><i class="fas fa-check"></i>Ok</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- SideBar --- Menu lateral -->
+
+    <div data-component="sidebar">
+        <div class="sidebar">
+            <ul class="list-group flex-column d-inline-block first-menu">
+                {% block siderbar %}
+
+                <li class="list-group-item pl-3 py-2">
+                    <a href="{% url 'inicio' %}" id="inicio">
+                        <i class="fas fa-home" aria-hidden="true"><span class="ml-2 align-middle">Inicio</span></i>
+                    </a>
+                </li>
+
+                {% if user.type_u.codigo == 'user' %}
+                    <li class="list-group-item pl-3 py-2">
+                        <a href="{% url 'apostar' '-' %}"><i class="fas fa-edit"><span class="ml-2 align-middle">Apuesta</span></i></a>
+                        <ul class="list-group flex-column d-inline-block submenu">
+                            <li class="list-group-item pl-4">
+                                <a href="{% url 'apostar' '-' %}">Apostar</a>
+                            </li> 
+                            <li class="list-group-item pl-4">
+                                <a href="{% url 'listA' %}">Consultar Apuestas</a>
+                            </li>
+                            <li class="list-group-item pl-4">
+                                <a href="{% url 'listC' %}">Consultar Carreras</a>
+                            </li> 
+                            <li class="list-group-item pl-4">
+                                <a href="{% url 'reglam' %}">Reglamento</a>
+                            </li>  
+                        </ul> 
+                    </li>
+                {% endif %}
+
+                {% if user.type_u.codigo != 'trans' and user.type_u.codigo != 'encar' %}
+                <li class="list-group-item pl-3 py-2">
+                    <a href="{% url 'estadistica' %}">
+                        <i class="fas fa-chart-line"><span class="ml-2 align-middle">Estadísticas</span></i>
+                    </a>
+                    <ul class="list-group flex-column d-inline-block submenu">
+                        
+                        {% if user.type_u.codigo == 'admin' %}
+                            <li class="list-group-item pl-4" >
+                                <a href="{% url 'estadRS' %}" id="estadRs">Rentabilidad del Sistema</a>
+                            </li>
+                        
+                        {% elif user.type_u.codigo == 'user' %}
+                            <li class="list-group-item pl-4" id="user">
+                                <a href="{% url 'estadAp' %}" id="estadRA">Redimiento de Apuestas</a>
+                            </li>
+                            <li class="list-group-item pl-4">
+                                <a href="{% url 'listaCb' '-' %}" id="estadCb">Caballos</a>
+                            </li>
+                            <li class="list-group-item pl-4">
+                                <a href="{% url 'listaH' '-' %}" id="estadHp">Hipódromos</a>
+                            </li>
+                            <li class="list-group-item pl-4">
+                                <a href="{% url 'listaJk' '-' %}" id="estadJk">Jockeys</a>
+                            </li>
+                            <li class="list-group-item pl-4">
+                                <a href="{% url 'listaE' '-' %}" id="estadEn">Entrenadores</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </li> 
+                {% endif %}
+
+                {% if user.type_u.codigo != 'admin' and user.type_u.codigo != 'encar' %}
+                    <li class="list-group-item pl-3 py-2">
+                        <a href="{% url 'consulta' %}">
+                            <i class="fas fa-money-bill-alt"><span class="ml-2 align-middle">Transacciones</span></i>
+                        </a>
+
+                        <ul class="list-group flex-column d-inline-block submenu">
+                            {% if user.type_u.codigo == 'user' %}
+                                <li class="list-group-item pl-4">
+                                    <a href="{% url 'saldo' %}">Saldo</a>
+                                </li> 
+
+                                <li class="list-group-item pl-4">
+                                    <a href="{% url 'trans' '-' %}">Transacciones</a>
+                                </li> 
+
+                                <li class="list-group-item pl-4">
+                                    <a href="{% url 'recar' %}" >Recargar</a>
+                                </li> 
+
+                                <li class="list-group-item pl-4">
+                                    <a href="{% url 'retir' %}">Retirar</a>
+                                </li>
+                            {% else %}
+                                <li class="list-group-item pl-4">
+                                    <a href="{% url 'transPendientes' %}">Pendientes</a>
+                                </li> 
+
+                                <li class="list-group-item pl-4">
+                                    <a href="{% url 'transAprobadas' %}" >Aprobadas</a>
+                                </li> 
+
+                                <li class="list-group-item pl-4">
+                                    <a href="{% url 'transRechazadas' %}">Rechazadas</a>
+                                </li>
+                            {% endif %} 
+                        </ul> 
+                    </li>
+                {% endif %} 
+
+                {% if user.type_u.codigo == 'encar' or user.type_u.codigo == 'admin' %}   
+                    <li class="list-group-item pl-3 py-2">
+                        <a href="{% url 'incluir' %}">
+                            <i class="fas fa-plus-circle"><span class="ml-2 align-middle">Incluir</span></i>
+                        </a>
+                        <ul class="list-group flex-column d-inline-block submenu">
+
+                            {% if user.type_u.codigo == 'admin' %}
+                                <li class="list-group-item pl-4">
+                                    <a href="{% url 'incluirH' '-' %}">Hipódromo</a>
+                                </li>
+
+                                <li class="list-group-item pl-4">
+                                    <a href="{% url 'incluirC' '-' %}">Caballo</a>
+                                </li>
+
+                                <li class="list-group-item pl-4">
+                                    <a href="{% url 'incluirJk' '-' %}">Jockey</a>
+                                </li>
+
+                                <li class="list-group-item pl-4">
+                                    <a href="{% url 'incluirE' '-' %}">Entrenador</a>
+                                </li>
+
+                            {% else %}
+                                <li class="list-group-item pl-4">
+                                    <a href="{% url 'incluirJh' '-'  %}">Jornadas Hípicas</a>
+                                </li>
+
+                                <li class="list-group-item pl-4">
+                                    <a href="{% url 'incluirCr' %}">Carreras</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </li>
+  
+                    <li class="list-group-item pl-3 py-2">
+                        <a href="{% url 'gestionar' %}">
+                            <i class="fas fa-database"><span class="ml-2 align-middle">Gestionar</span></i>
+                        </a>
+                        <ul class="list-group flex-column d-inline-block submenu">
+
+                            {% if user.type_u.codigo == 'admin' %}
+                                <li class="list-group-item pl-4">
+                                    <a href="{% url 'histMv' '-' %}">Moneda</a>
+                                </li>
+
+                                <li class="list-group-item pl-4">
+                                    <a href="{% url 'listaU' '-' %}">Usuario</a>
+                                </li>
+
+                                <li class="list-group-item pl-4">
+                                    <a href="{% url 'listaH' '-' %}">Hipódromos</a>
+                                </li>
+
+                                <li class="list-group-item pl-4">
+                                    <a href="{% url 'listaCb' '-' %}">Caballos</a>
+                                </li>
+
+                                <li class="list-group-item pl-4">
+                                    <a href="{% url 'listaJk' '-' %}">Jockeys</a>
+                                </li>
+
+                                <li class="list-group-item pl-4">
+                                    <a href="{% url 'listaE' '-' %}">Entrenadores</a>  
+                                </li>
+
+                            {% else %}
+                                <li class="list-group-item pl-4">
+                                    <a href="{% url 'listaJh' '-' %}">Jornadas Hípicas</a>
+                                </li>
+
+                                <li class="list-group-item pl-4" >
+                                    <a href="{% url 'listaCr' %}">Carreras</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </li>
+
+                {% endif %}
+
+                <li class="list-group-item pl-3 py-2">
+                    <a href="{% url 'configuraciones' %}"><i class="fas fa-cogs"><span class="ml-2 align-middle">Configuraciones</span></i></a>
+                    <ul class="list-group flex-column d-inline-block submenu">
+                        <li class="list-group-item pl-4">
+                            <a href="{% url 'configuraciones' %}" id="confDp">Datos Personales</a>
+                                                <!-- <ul class="list-group flex-column d-inline-block sub-submenu">
+                                                        <span class="arrow"></span>
+                                                        <li class="list-group-item pl-4">
+                                                            <a href="#">Video Tutorials</a>
+                                                        </li>
+                                                    </ul> SUB_MENU -->
+                        </li>
+                    </ul>
+                </li>
+
+                {% endblock %}
+            </ul>
+        </div> 
+    </div>
+
+
+    <div id="fullpage">
+
+        {% block vistas %}
+
+            <!--
+                Vista Principal
+            -->
+            
+            
+            {% block principal %}
+            
+                <div class="section d-flex">
+                    <div class="justify-content-center container" style="height: 90%;width: 100%"> 
+                        <div class="d-flex container2 text-center justify-content-center">
+                             <div class="tab-content3">
+                                <div class="tab-pane active card-body" role="tabpanel">
+                                    <h1>Bienvenido de vuelta</h1>
+                                    <p style="text-align:center">&nbsp; ¡Bienvenido a FlyHorse, tu sistema de apuestas hípicas online! A la izquierda encontrarás un panel donde podrás acceder a las distintas opciones que el sitio tiene para ofrecerte, mientras que en la barra superior cuentas con información útil y relevante sobre tu cuenta. Siempre puedes dar click a Cerrar Sesión y volver otro día si así gustas. <b>¡Felices apuestas!</b></p>
+                                    <h3 class="mb-md-3 text-center text-white align-center">Últimas 5 carreras con resultados publicados:</h3>
+                                    <div class="col-md-10 p-3 m-auto">
+                                        {% if carreras %}
+                                        <table class="table table-responsive text-center mb-0 tbl w-100 table-hover" id="tabla">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th>Fecha de la carrera</th>
+                                                    <th>Hora de la carrera</th>
+                                                    <th>Hipódromo donde se corrió</th>
+                                                    <th>Cantidad de Caballos</th>
+                                                    <th>Distancia</th>
+                                                    <th>Opciones</th>
+                                                 <tr>
+                                            <thead>
+                                            <tbody>
+                                            
+                                            {% for  car in carreras  %}
+                                                <tr>
+                                                    <td>{{car.id_jh.fecha}}</td>
+                                                    <td>{{car.hora}}</td>
+                                                    <td>{{car.id_jh.id_hip.nombre}}</td>
+                                                    <td>{{car.cant_caballos}}</td>
+                                                    <td>{{car.distancia}}</td>
+                                                    <td><a class="btn btn-warning w-100" href="{% url 'ConsulC' car.id %}">Ver Detalle</a></td>
+                                                <tr>
+                                            {% endfor %}
+                                            <tbody>
+                                        </table>
+                                        {% endif %}
+                                    <div>
+                                <div>
+                             <div>
+                        <div>
+                    <div>
+                <div>
+              {% endblock %}
+
+		
+            <!--
+                Vista Gestionar
+            --> 
+            {% block gestionar %}
+                
+            {% endblock %}
+
+            <!--
+                Vista Incluir
+            -->          
+            {% block incluir %}
+                
+            {% endblock %}
+
+            <!--
+                Vista Reglamento
+            -->
+            {% block reglamento %}
+
+            {% endblock %}
+
+            <!--
+                Vista Estadistica
+            -->          
+            {% block estadistica %}
+
+            {% endblock %}   
+
+            <!--
+                Vista Consulta Usuarios
+            -->
+            {% block consulta %}
+
+            {% endblock %}
+
+            <!--
+                Vista Configuracion
+            -->
+            {% block configuracion %}
+
+            {% endblock %}
+
+        {% endblock %}
+            
+    </div>
+
+
+<body>
+
+{% endblock %}
+{% block scripts %}
+    <script type="text/javascript" src="{% static 'js/tablas/tablaSencilla.js'%}"></script>
+{% endblock %}

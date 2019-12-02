@@ -1,0 +1,94 @@
+{% extends 'inicio/incluir.html' %}
+{% load static %}
+
+{% block incluir %}
+    {% if user.type_u.codigo == 'admin' %}
+        <div class="section d-flex">
+            <div class="justify-content-center container" style="height: 90%;width: 100%">
+                <div class="d-flex container2 text-center justify-content-center">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link" id="Titul">Incluir</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'incluirH' '-' %}">Hipódromo</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'incluirC' '-' %}">Caballo</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'incluirJk' '-' %}">Jockey</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'incluirE' '-' %}">Entrenador</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+
+                        <!-- Incluir
+                            Entrenador -->
+
+                        <div class="tab-pane card-body active" role="tabpanel">
+                            <h3 class="mb-md-3 text-center text-white align-center">Incluir Entrenador</h3>
+                            <form method="POST">
+                                {% csrf_token %}
+                                    <div class="input-group form-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-id-badge"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="Nombre" name="nombre">
+                                        {{ form.nombre.errors }}
+                                    </div>
+
+                                    <div class="input-group form-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-birthday-cake "></i></span>
+                                        </div>
+                                        <input type="date" class="form-control" placeholder="Fecha de Nacimiento" name="fecha_nac">
+                                        {{ form.fecha_nac.errors }}
+                                    </div>
+
+                                    {% comment %} <div class="input-group form-group text-center">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-upload"></i></span>
+                                        </div>
+                                        <label for="imagen">Foto Entrenador </label>
+                                        <input name="file" type="file" size="2mb" name="foto">
+                                    </div> {% endcomment %}
+
+                                    <div class="form-group">
+                                        <button class="btn btn-warning w-100" type="submit"><i class="fas fa-plus-circle"></i> Incluir</button>
+                                    </div>
+                            </form> 
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="d-flex justify-content-center h-100">
+            <div class="card">
+                <div class="card-header text-center border-0">
+                    <img class="img-fluid w-50" src="{% static 'img/iniciar/Error.png'%}">
+                </div>
+                <div class="card-body">
+                    <h2 class="text-center" style="color: white">ERROR EN LA URL</h2>
+                </div>
+                <div class="card-footer text-center border-0">
+                    <a class="iniciar btn btn-warning w-50" href="{% url 'inicio' %}" style="color: black">Volver al Inicio</a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $( document ).ready(function() {
+        $("#opExitosa").modal('{{ show }}')
+    });   
+</script>
+{% endblock %}
+
+           

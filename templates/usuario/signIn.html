@@ -1,0 +1,65 @@
+{% extends 'base/base_generic.html' %}
+{% load static %}
+
+{% block inicioS %}
+
+    <div id="section-iniciarSesion" class="section active" data-anchor="Iniciar_Sesion"> 
+        <div class="d-flex justify-content-center h-100">
+            <img class="bg-img-right img-fluid position-absolute" src="{% static 'img/iniciar/icon-iniciar.png'%}">
+            <div class="card">
+                <div class="card-header text-center border-0">
+                    <img class="img-fluid w-50" src="{% static 'img/iniciar/icono-inicio-de-sesion.png'%}">
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{ form.non_field_errors }}
+                        <div class="input-group form-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            </div>
+                            <input id="login_username" type="text" class="form-control" placeholder="Usuario" name="username">
+                            {{ form.username.errors }}
+                            {{ form.username.help_text }}
+                        </div>
+
+                        <div class="input-group form-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                            </div>
+                            <input type="email" class="form-control" placeholder="Correo Electronico" name="email">
+                            {{ form.email.errors }}
+                            {{ form.email.help_text }}
+                        </div>
+                        
+                        <div class="input-group form-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-key"></i></span>
+                            </div>
+                            <input type="password" class="form-control" placeholder="Contraseña" name="password1">
+                            {{ form.password1.errors }}
+                            {{ form.password1.help_text }}
+                        </div>
+
+                        <div class="input-group form-group">  
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-key"></i></span>
+                            </div>
+                            <input type="password" class="form-control" placeholder="Confirmar Contraseña" name="password2">
+                            {{ form.password2.errors }}
+                        </div>
+                            {{ form.password2.help_text }}
+                            </br>
+                        <div class="form-group">
+                            <button class="btn btn-warning w-100" type="submit">Registar</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer text-center border-0">
+                    ¿Ya tienes cuenta? <a id="form-iniciar" href="{% url 'index' %}">Iniciar Sesión</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}

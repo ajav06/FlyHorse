@@ -1,0 +1,81 @@
+{% extends 'inicio/consulta.html' %}
+{% load static %}
+
+{% block consulta %}
+    {% if user.type_u.codigo == 'user' %}
+        <div class="section d-flex">
+            <div class="justify-content-center container" style="height: 90%;width: 100%">    
+                <div class="d-flex container2 text-center justify-content-center">
+                    <ul class="nav nav-tabs " role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link" id="Titul">Gestión de Transacciones</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'saldo' %}">Saldo</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'trans' '-' %}" >Transacciones</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'recar' %}">Recargar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'retir' %}">Retirar</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane card-body active" role="tabpanel">
+                            <h3 class="mb-md-3 text-center text-white align-center">Saldo Actual</h3>
+                            </br>
+                            <div class="row">
+                                <div class="input-group col-4 w-80 centrar">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text form-control"><i class="fas fa-tachometer-alt"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control" value="{{ user.balance }} HRC" style="text-align:center;" disabled>
+                                </div>
+                                <div class="col-4">
+                                    <img class="img-fluid" src="{% static 'img/otras/HorseCoin.png' %}" style="width: 50%">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-group col-4 w-80 centrar">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text form-control"><i class="fas fa-tachometer-alt"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control" value="1 HRC = {{ moneda_v.precio_bs }} Bs" style="text-align:center;" disabled>
+                                </div>
+                                <br/>
+                                <div class="input-group col-4 w-80 centrar">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text form-control"><i class="fas fa-tachometer-alt"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control" value="1 HRC = {{ moneda_v.precio_divisa }} (Divisa)" style="text-align:center;" disabled>
+                                </div>
+                                </div>
+                            <div class="row">
+                                <a href="{% url 'recar' %}" class="col-5 btn btn-warning w-50">Recargar</a>
+                                <a href="{% url 'retir' %}" class="col-5 btn btn-warning w-50">Retirar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    {% else %}
+        <div class="d-flex justify-content-center h-100">
+            <div class="card">
+                <div class="card-header text-center border-0">
+                    <img class="img-fluid w-50" src="{% static 'img/iniciar/Error.png'%}">
+                </div>
+                <div class="card-body">
+                    <h2 class="text-center" style="color: white">ERROR EN LA URL</h2>
+                </div>
+                <div class="card-footer text-center border-0">
+                    <a class="iniciar btn btn-warning w-50" href="{% url 'inicio' %}" style="color: black">Volver al Inicio</a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

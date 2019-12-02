@@ -1,0 +1,43 @@
+{% extends 'base/inicio.html' %}
+{% load static %}
+
+{% block consulta %}
+    <div class="section d-flex">
+
+        <div class="justify-content-center container" style="height: 90%;width: 100%">
+                
+            <div class="d-flex container2 text-center justify-content-center">
+                <ul class="nav nav-tabs " role="tablist">
+         {% if user.type_u.codigo == 'user' %}
+                    <li class="list-group-item pl-3 py-2">
+                        <a href="{% url 'apostar' '-' %}"><i class="fas fa-edit"><span class="ml-2 align-middle">Apuesta</span></i></a>
+                        <ul class="list-group flex-column d-inline-block submenu">
+                            <li class="list-group-item pl-4">
+                                <a href="{% url 'apostar' '-' %}">Apostar</a>
+                            </li> 
+                            <li class="list-group-item pl-4">
+                                <a href="{% url 'listA' %}" id="listA"Consultar Apuestas</a>
+                            </li>
+                            <li class="list-group-item pl-4">
+                                <a href="{% url 'listC' %}">Consultar Carreras</a>
+                            </li>  
+                            <li class="list-group-item pl-4">
+                                <a href="{% url 'reglam' %}">Reglamento</a>
+                            </li>
+                        </ul> 
+                    </li>
+                {% endif %}
+                
+                </ul>
+                <div class="tab-content">
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block principal %}
+{% endblock %}
+

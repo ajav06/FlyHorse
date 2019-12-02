@@ -1,0 +1,59 @@
+{% extends 'inicio/gestionar.html' %}
+{% load static %}
+
+{% block gestionar %}
+    {% if user.type_u.codigo == 'user' %}
+        <div class="section d-flex">
+            <div class="justify-content-center container" style="height: 90%;width: 100%">  
+                <div class="d-flex container2 text-center justify-content-center">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                                <a class="nav-link" id="Titul">Estadísticas</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'estadAp' %}">Rendimiento de Apuestas</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'listaCb' '-' %}">Caballos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'listaH' '-' %}">Hipódromos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" href="{% url 'listaJk' '-' %}">Jockey</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'listaE' '-' %}">Entrenadores</a>
+                            </li>
+                            </ul>
+                        <div class="tab-content">
+                          <div class="tab-pane card-body active" role="tabpanel">
+                              <div class="col-md-10 p-3 m-auto" >
+                                <div class="tab-pane card-body active" role="tabpanel">
+                                    <h3 class="mb-md-3 text-center text-white align-center">Estadísticas de Jockey</h3>
+                                    <h5 class="txtst">{{ jockey.nombre }}</h5>
+                                  <div class="grid-estadisticas">
+                                    <div><div class="txtst"><b>Posición media:</b></div> {{ promedio }}</div>  
+                                    <div><div class="txtst"><b>Variación de Posición:</b></div> ±{{ desviacion }} lugar</div>  
+                                    <div><div class="txtst"><b>Caballo más ganador:</b></div> {{ caballo_mayor.nombre }}</div>
+                                  </div>
+                             </div>     
+                        </div>
+                    </div>
+
+    {% else %}
+        <div class="d-flex justify-content-center h-100">
+            <div class="card">
+                <div class="card-header text-center border-0">
+                    <img class="img-fluid w-50" src="{% static 'img/iniciar/Error.png'%}">
+                </div>
+                <div class="card-body">
+                    <h2 class="text-center" style="color: white">ERROR EN LA URL</h2>
+                </div>
+                <div class="card-footer text-center border-0">
+                    <a class="iniciar btn btn-warning w-50" href="{% url 'inicio' %}" style="color: black">Volver al Inicio</a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
