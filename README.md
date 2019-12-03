@@ -15,7 +15,7 @@ Sistema de Apuestas Hipicas online. Primer acercamiento en desarrollo web con Dj
 
 ## Desarrolladores:
 * Albert Acevedo (https://github.com/ajav06)
-* Rubén Gutiérrez (https://gitlab.com/gutierrezruben184)
+* Rubén Gutiérrez (https://github.com/gutierrezruben184)
 * Gabriel Roa (https://github.com/gaboroa14)
 * Marielba Maldonado (https://github.com/Marielbamar21)
 * Alejandro Valencia (https://github.com/alejandro2309)
