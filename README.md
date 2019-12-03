@@ -5,13 +5,13 @@ Sistema de Apuestas Hipicas online. Primer acercamiento en desarrollo web con Dj
 ## Desarrollo:
 
 ### Front-End:
-* HTML5
-* CSS3
-* SASS
-* Bootstrap 4
+* HTML5.
+* CSS3.
+* SASS.
+* Bootstrap 4.
 
 ### Backend:
-* Django (Python)
+* Django (Python).
 
 ## Desarrolladores:
 * Albert Acevedo (https://github.com/ajav06)
